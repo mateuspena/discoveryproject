@@ -56,6 +56,8 @@
                                     class="form-control" 
                                     OnKeyDown="fMasc(this, mCPF)"
                                     placeholder="Cpf (Ex.: 999.999.999-99)"
+                                    maxlength="14"
+                                    autofocus
                                     required
                                 enabled>
                             </div>
@@ -79,7 +81,7 @@
 
                         <div class="col-md-8 col-md-offset-2">
                             <div class="col-md-6 col-md-offset-3 col-sm-6">
-                                <p><input type="submit" class="btn btn-default btn-block">Login</p>
+                                <p><input type="submit" class="btn btn-default btn-block" value="Login"></p>
                                 <p>
                                     <a href="#" onClick="toPageCadastrar()" id="mylink">Criar meu cadastro.</a>
                                 </p>
