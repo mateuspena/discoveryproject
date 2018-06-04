@@ -67,6 +67,7 @@
                                     class="form-control" 
                                     OnKeyDown="fMasc(this, mCPF)"
                                     placeholder="Cpf (Ex.: 999.999.999-99)"
+                                    maxlength="14"
                                     required
                                 enabled>
                             </div>
@@ -132,7 +133,7 @@
                                     id="senha" 
                                     class="form-control" 
                                     placeholder="●●●●●●●●"
-                                    maxlength="45"
+                                    maxlength="10"
                                     required
                                 enabled>
                             </div>
@@ -149,7 +150,7 @@
                                     id="cfm_senha" 
                                     class="form-control" 
                                     placeholder="●●●●●●●●"
-                                    maxlength="45"
+                                    maxlength="10"
                                     required
                                 enabled>
                             </div>

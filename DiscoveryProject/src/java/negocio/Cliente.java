@@ -41,6 +41,8 @@ public class Cliente {
     }
     
     
+    
+    
     public Cliente(String cpf, String senha) {
         this.cpf = cpf;
         this.senha = senha;
@@ -50,8 +52,9 @@ public class Cliente {
     }
     
      public String getData(){
-        String data = Integer.toString(this.getAno())+"-"+Integer.toString(this.getMes())+"-"+Integer.toString(this.getDia());
-        return data;
+//        String data = Integer.toString(this.getAno())+"-"+Integer.toString(this.getMes())+"-"+Integer.toString(this.getDia());
+//        return data;
+        return( this.data );
     }
     
     public String getNascimento(){
@@ -136,13 +139,17 @@ public class Cliente {
     }
     
      public boolean incluirCliente(){
-        boolean situacao = false;
-       if(!this.validaAcesso()){
-         ClienteDAO d = new ClienteDAO(this);
-         situacao= d.cadastrarCliente();
-         d.fechaconexao();
-       }
-       return situacao;
+         ClienteDAO dao = new ClienteDAO(this);
+         return( dao.cadastrarCliente() );
+         
+         
+//        boolean situacao = false;
+//       if(!this.validaAcesso()){
+//         ClienteDAO d = new ClienteDAO(this);
+//         situacao= d.cadastrarCliente();
+//         d.fechaconexao();
+//       }
+//       return situacao;
     }
     
     

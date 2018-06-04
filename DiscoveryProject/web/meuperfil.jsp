@@ -118,10 +118,10 @@
                                             <div class="fh5co-contact-info">
                                                     <h3>MEU PERFIL</h3>
                                                     <ul>
-                                                            <li class="nomeCliente"> <b>Nome:</b><%= cliente.getNome()%></li>
-                                                            <li class="cpfCliente"> <b>Cpf:</b> <%= cliente.getCpf()%> </li>
-                                                            <li class="emailCliente"> <b>Email:</b> <%= cliente.getEmail()%></li>
-                                                            <li class="dataNascimento"> <b>Data de nascimento:</b> <%=  cliente.getNascimento()%></li>
+                                                            <li class="nomeCliente"> <b>Nome: </b><%= cliente.getNome()%></li>
+                                                            <li class="cpfCliente"> <b>Cpf: </b> <%= cliente.getCpf()%> </li>
+                                                            <li class="emailCliente"> <b>Email: </b> <%= cliente.getEmail()%></li>
+                                                            <li class="dataNascimento"> <b>Data de Nascimento: </b> <%=  cliente.getNascimento()%></li>
                                                     </ul>
                                             </div>
                                     </div>

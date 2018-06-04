@@ -34,8 +34,6 @@ public class AcessoPerfil extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher rd;
-        
         
         try (PrintWriter out = response.getWriter()){
             
@@ -43,17 +41,17 @@ public class AcessoPerfil extends HttpServlet {
             String senha = request.getParameter("senha");
             
             Cliente cliente = new Cliente(cpf, senha);
-            if (cliente.validaAcesso()){
-                rd = request.getRequestDispatcher("meuperfil.jsp");
-                request.getSession().setAttribute("cliente", cliente);
-                rd.forward(request, response);
-               
+            RequestDispatcher dispatcher = null;
             
+            if (cliente.validaAcesso()){
+                dispatcher = request.getRequestDispatcher("meuperfil.jsp");
+                request.getSession().setAttribute("cliente", cliente);
             }
             else {
-            response.sendRedirect("login.jsp");
-            
+                response.sendRedirect("login.jsp");
             }
+            
+            dispatcher.forward(request, response);
         }
     }
 

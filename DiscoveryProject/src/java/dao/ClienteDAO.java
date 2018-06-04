@@ -36,16 +36,14 @@ public class ClienteDAO
             stat.setString(1, this.cliente.getCpf());
             stat.setString(2, this.cliente.getSenha());
             ResultSet rs = stat.executeQuery();
-            //String nasc1="00/00/0000";
-            //String[] nasc = nasc1.split("-");
+            
             while(rs.next()){
-                //nasc = rs.getString("DataNacimento");
-                //String[] nasc = rs.getDate("DataNacimento").toString().split("-");
-                /*
+                String[] nasc = rs.getDate("DataNascimento").toString().split("-");
+                
                 this.cliente.setAno(Integer.parseInt(nasc[0]));
                 this.cliente.setMes(Integer.parseInt(nasc[1]));
                 this.cliente.setDia(Integer.parseInt(nasc[2]));
-                */
+                
                 this.cliente.setEmail(rs.getString("Email"));
                 this.cliente.setNome(rs.getString("Nome"));
                 this.cliente.setTelefone(rs.getString("Telefone"));
@@ -61,9 +59,15 @@ public class ClienteDAO
     public void excluirCliente(){}
     
    public boolean cadastrarCliente(){
-        String sql = "insert into cliente (Nome,Cpf,Email,Telefone,Senha,DataNascimento) values (?,?,?,?,?,?)";
+       
+       Connection          conn    = ConnectionFactory.getConnection();
+       PreparedStatement   stmt    = null;
+       boolean             result  = false;
+        
+        
          try {
-            PreparedStatement stat = this.con.prepareStatement(sql); //prepara instrucao sql pra ser executada
+            String sql = "insert into cliente (Nome,Cpf,Email,Telefone,Senha,DataNascimento) values (?,?,?,?,md5(?),?)";
+            PreparedStatement stat = conn.prepareStatement(sql); //prepara instrucao sql pra ser executada
             stat.setString(1, this.cliente.getNome());
             stat.setString(2, this.cliente.getCpf());
             stat.setString(3, this.cliente.getEmail());
@@ -71,16 +75,12 @@ public class ClienteDAO
             stat.setString(5, this.cliente.getSenha());
             stat.setString(6, this.cliente.getData());
 
-            stat.executeQuery();
-            return true;
-            
-     
-
+            result = (stat.executeUpdate() != 0) ? true : false ;
         } catch (SQLException ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-         return false;
-
+         
+        return( result );
    }
     
     public void atualizarCliente(){}

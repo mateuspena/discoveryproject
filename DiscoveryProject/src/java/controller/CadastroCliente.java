@@ -44,7 +44,8 @@ public class CadastroCliente extends HttpServlet {
         RequestDispatcher dispatcher = null;
         
        if(a.incluirCliente()){
-        dispatcher = request.getRequestDispatcher("meuperfil.jsp");
+           request.getSession().setAttribute("cliente", a); //puxa o objeto a para tirar as informacoes e jogar na pagina.
+            dispatcher = request.getRequestDispatcher("meuperfil.jsp");
          
         }else{
          dispatcher = request.getRequestDispatcher("cadastrar.jsp");
@@ -52,9 +53,6 @@ public class CadastroCliente extends HttpServlet {
        }
        
        dispatcher.forward(request,response);
-        
-        
-        
         
         
 //        response.setContentType("text/html;charset=UTF-8");
