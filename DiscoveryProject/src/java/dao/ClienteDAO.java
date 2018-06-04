@@ -60,7 +60,28 @@ public class ClienteDAO
     
     public void excluirCliente(){}
     
-    public void adcionarCliente(){ }
+   public boolean cadastrarCliente(){
+        String sql = "insert into cliente (Nome,Cpf,Email,Telefone,Senha,DataNascimento) values (?,?,?,?,?,?)";
+         try {
+            PreparedStatement stat = this.con.prepareStatement(sql); //prepara instrucao sql pra ser executada
+            stat.setString(1, this.cliente.getNome());
+            stat.setString(2, this.cliente.getCpf());
+            stat.setString(3, this.cliente.getEmail());
+            stat.setString(4, this.cliente.getTelefone());
+            stat.setString(5, this.cliente.getSenha());
+            stat.setString(6, this.cliente.getData());
+
+            stat.executeQuery();
+            return true;
+            
+     
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return false;
+
+   }
     
     public void atualizarCliente(){}
     

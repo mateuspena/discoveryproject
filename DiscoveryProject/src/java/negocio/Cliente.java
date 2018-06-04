@@ -18,6 +18,7 @@ public class Cliente {
     private String telefone;
     private String email;
     private String senha;
+    private String data;
 
     public Cliente(String cpf, String nome, int dia, int mes, int ano, String telefone, String email, String senha) {
         this.cpf = cpf;
@@ -30,12 +31,27 @@ public class Cliente {
         this.senha = senha;
     }
 
+    public Cliente(String cpf, String nome, String telefone, String email, String senha, String data) {
+        this.cpf = cpf;
+        this.nome = nome;
+        this.telefone = telefone;
+        this.email = email;
+        this.senha = senha;
+        this.data = data;
+    }
+    
+    
     public Cliente(String cpf, String senha) {
         this.cpf = cpf;
         this.senha = senha;
     }
 
     public Cliente() {
+    }
+    
+     public String getData(){
+        String data = Integer.toString(this.getAno())+"-"+Integer.toString(this.getMes())+"-"+Integer.toString(this.getDia());
+        return data;
     }
     
     public String getNascimento(){
@@ -119,4 +135,16 @@ public class Cliente {
         return consulta;
     }
     
+     public boolean incluirCliente(){
+        boolean situacao = false;
+       if(!this.validaAcesso()){
+         ClienteDAO d = new ClienteDAO(this);
+         situacao= d.cadastrarCliente();
+         d.fechaconexao();
+       }
+       return situacao;
+    }
+    
+    
 }
+

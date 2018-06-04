@@ -7,7 +7,7 @@
 
         <script type="text/javascript">
             function validarCadastro(){
-                if ( cadastrar.cpf.value=="" || cadastrar.nome.value=="" || cadastrar.data.value=="" || cadastrar.email.value=="" )
+                if ( cadastrar.cpf.value=="" || cadastrar.nome.value=="" || cadastrar.data.value=="" || cadastrar.email.value=="" || cadastrar.telefone.value=="" || cadastrar.senha.value=="")
                 {
                     alert("Por favor, preencha todos os campos obrigatórios!");
                     return( false );
@@ -53,7 +53,7 @@
 
                 <div class="row animate-box">
                     <!-- INÍCIO - Formulário de Login -->
-                    <form name="cadastrar" method="post" OnSubmit="return validarCadastro()" action="login.html" class="form-inline">
+                    <form name="cadastrar" method="post" OnSubmit="return validarCadastro()" action="CadastroCliente" class="form-inline">
                         <div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
                             <div class="col-md-6 col-md-offset-3 col-sm-6">
                                 <label for="cpf" style="color:#efefef">CPF</label>
@@ -150,6 +150,20 @@
                                     class="form-control" 
                                     placeholder="●●●●●●●●"
                                     maxlength="45"
+                                    required
+                                enabled>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
+                            <div class="col-md-6 col-md-offset-3 col-sm-6">
+                                <label for="telefone" style="color:#efefef">Telefone</label>
+                                <input 
+                                    type="text" 
+                                    name="telefone" 
+                                    class="form-control" 
+                                    placeholder="Telefone (3366-0099)"
+                                    maxlength="9"
                                     required
                                 enabled>
                             </div>
