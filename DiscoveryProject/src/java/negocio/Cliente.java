@@ -40,12 +40,13 @@ public class Cliente {
         this.data = data;
     }
     
-    
-    
-    
     public Cliente(String cpf, String senha) {
         this.cpf = cpf;
         this.senha = senha;
+    }
+
+    public Cliente(String cpf) {
+        this.cpf = cpf;
     }
 
     public Cliente() {
@@ -152,6 +153,13 @@ public class Cliente {
 //       return situacao;
     }
     
+    public boolean excluirCliente(){
+        ClienteDAO dao = new ClienteDAO(this);
+        boolean retorno = dao.excluirCliente();
+        dao.fechaconexao();
+        return retorno;
+    }
     
+     
 }
 

@@ -19,8 +19,8 @@ import negocio.Cliente;
  *
  * @author Gilmar
  */
-@WebServlet(name = "AcessoPerfil", urlPatterns = {"/AcessoPerfil"})
-public class AcessoPerfil extends HttpServlet {
+@WebServlet(name = "ExcluirCliente", urlPatterns = {"/ExcluirCliente"})
+public class ExcluirCliente extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,21 +34,16 @@ public class AcessoPerfil extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher dispatcher;
-        try (PrintWriter out = response.getWriter()){
-            
-            String cpf = request.getParameter("cpf");
-            String senha = request.getParameter("senha");
-            
-            Cliente cliente = new Cliente(cpf, senha);;
-            if (cliente.validaAcesso()){
-                dispatcher = request.getRequestDispatcher("meuperfil.jsp");
-                request.getSession().setAttribute("cliente", cliente);
-                dispatcher.forward(request, response);
-            }
-            else {
-                response.sendRedirect("login.jsp");
-            }
+        try (PrintWriter out = response.getWriter()) {
+            String cpf_cliente = request.getParameter("cpfExcluir");
+            Cliente a = new Cliente(cpf_cliente);  //criar construtor so com cpf
+            RequestDispatcher dispatcher = null;
+            if(a.excluirCliente()){
+                dispatcher = request.getRequestDispatcher("index.jsp");
+              }else{
+               dispatcher = request.getRequestDispatcher("meuperfil.jsp");
+             }
+             dispatcher.forward(request,response);
         }
     }
 

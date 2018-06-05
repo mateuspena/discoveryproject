@@ -30,7 +30,7 @@ public class ClienteDAO
     
     public boolean consultarCliente(){
         
-        String sql = "Select * from cliente where Cpf=? and Senha=md5(?)";
+        String sql = "Select * from cliente where Cpf=? and Senha=?";//md5(?)
         try {
             PreparedStatement stat = this.con.prepareStatement(sql);
             stat.setString(1, this.cliente.getCpf());
@@ -56,7 +56,21 @@ public class ClienteDAO
         return false;
     }
     
-    public void excluirCliente(){}
+    public boolean excluirCliente(){
+        Connection conn = ConnectionFactory.getConnection();   
+        PreparedStatement stmt = null;
+        boolean result = false;
+
+        try {
+          String sql = "delete from Cliente where Cpf = ?"; 
+          PreparedStatement stat = con.prepareStatement(sql);  
+          stat.setString(1, this.cliente.getCpf()); 
+          result = (stat.executeUpdate() != 0) ? true : false ; //é execute update msm? + retorna 0 se conseguir
+         } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+         }
+         return result;
+    }
     
    public boolean cadastrarCliente(){
        

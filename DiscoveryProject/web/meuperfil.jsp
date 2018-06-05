@@ -131,25 +131,41 @@
 
 
                                                     <!-- INÍCIO - Linha 3 -->
-                                                    <div class="form-group" style="margin-top:10px;">
+                                                    <form action="AlterarCadastro" method="post">
+                                                            <input name="cpfAlterar" type="hidden" value="<%= cliente.getCpf()%>">
+                                                            <div class="form-group" style="margin-top:10px;">
                                                             <center>
                                                                     <!-- Botão Editar -->
                                                                     <input 
-                                                                            type="button" 
+                                                                            type="submit" 
                                                                             value="Editar informações" 
                                                                             class="btn btn-primary"
-                                                                            onClick="editaInformacao()"
                                                                     enabled>
-
+                                                            
+                                                            </center>
+                                                            </div>
+                                                            
+                                                    </form>
+                                                    
+                                                            
+                                                    <form action="ExcluirCliente" method="post" >
+                                                        <input name="cpfExcluir" type="hidden" value="<%= cliente.getCpf()%>">
+                                                        <div class="form-group" style="margin-top:10px;">
+                                                            <center>
                                                                     <!-- Botão Exclusão -->
                                                                     <input 
-                                                                            type="button" 
+                                                                            type="submit" 
                                                                             value="Excluir minha conta" 
-                                                                            class="btn btn-primary" 
-                                                                            OnClick="excluir()"
+                                                                            class="btn btn-primary"
                                                                     enabled>
                                                             </center>
-                                                    </div>
+                                                            </div>
+                                                        </form>
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
                                                     <!-- FINAL - Linha 3 -->
                                             </form>		
                                     </div>
