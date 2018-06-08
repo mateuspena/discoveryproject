@@ -137,8 +137,9 @@
                                                             <center>
                                                                     <!-- Botão Editar -->
                                                                     <input 
-                                                                            type="submit" 
-                                                                            value="Editar informações" 
+                                                                            type="submit"
+                                                                            name="modificar"                                                                            
+                                                                            value="Editar" 
                                                                             class="btn btn-primary"
                                                                     enabled>
                                                             

@@ -58,6 +58,24 @@ public class Cliente {
         return( this.data );
     }
     
+     public String getData2(){
+        String mes,dia;
+        if (this.getMes()< 10){
+            mes = "0"+Integer.toString(this.getMes());
+        }
+        else {
+            mes = Integer.toString(this.getMes());
+        }
+        
+        if (this.getDia()< 10){
+            dia = "0"+Integer.toString(this.getDia());
+        }
+        else {
+            dia = Integer.toString(this.getDia());
+        }
+        String data = Integer.toString(this.getAno())+"-"+ mes +"-"+ dia;
+        return data;
+    }
     public String getNascimento(){
         String data = Integer.toString(this.getDia())+"/"+Integer.toString(this.getMes())+"/"+Integer.toString(this.getAno());
         return data; 
@@ -139,6 +157,30 @@ public class Cliente {
         return consulta;
     }
     
+    public boolean buscarCliente(){
+        ClienteDAO dao = new ClienteDAO(this); 
+        boolean consulta = dao.buscarCliente();
+        dao.fechaconexao();
+        return consulta;
+    }
+    
+     public boolean atualizarCliente(){
+        ClienteDAO dao = new ClienteDAO(this); 
+        boolean consulta = dao.atualizarCliente();
+        dao.fechaconexao();
+        return consulta;
+    }
+    
+    public void preencherData(){
+        
+        String[] nasc = this.data.split("-");
+                
+        this.setAno(Integer.parseInt(nasc[0]));
+        this.setMes(Integer.parseInt(nasc[1]));
+        this.setDia(Integer.parseInt(nasc[2]));
+                
+    }
+     
      public boolean incluirCliente(){
          ClienteDAO dao = new ClienteDAO(this);
          return( dao.cadastrarCliente() );
