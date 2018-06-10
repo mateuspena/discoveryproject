@@ -85,16 +85,17 @@
                                     <div class="col-xs-2"></div>
                                     <div class="col-xs-10 text-right menu-1">
                                             <ul>
-                                                    <li><a href="index.html">Início</a></li>
-                                                    <li><a href="minhasviagens.html">Sua Viagem</a></li>
-                                                    <li><a href="contato.html">Contato</a></li>
-                                                    <li><a href="sobre.html">Sobre</a></li>
+                                                    <li><a href="index.jsp
+                                                           ">Início</a></li>
+                                                    <li><a href="minhasviagens.jsp">Sua Viagem</a></li>
+                                                    <li><a href="contato.jsp">Contato</a></li>
+                                                    <li><a href="sobre.jsp">Sobre</a></li>
                                                     <li class="has-dropdown">
                                                             <a href="#" style="color:#ffffff;">Meu Perfil</a>
                                                             <ul class="dropdown">
-                                                                    <li><a href="minhasviagens.html">Viagens</a></li>
-                                                                    <li><a href="minhasreclamacoes.html" style="color:#0c9cee">Reclamações</a></li>
-                                                                    <li><a href="#">Sair</a></li>
+                                                                    <li><a href="minhasviagens.jsp">Viagens</a></li>
+                                                                    <li><a href="minhasreclamacoes.jsp" style="color:#0c9cee">Reclamações</a></li>
+                                                                    <li><a href="index.jsp">Sair</a></li>
                                                             </ul>
                                                     </li>
                                             </ul>
@@ -189,11 +190,11 @@
                                     </div>
                                     <div class="col-md-2 col-sm-4 col-xs-6 col-md-push-1">
                                             <ul class="fh5co-footer-links">
-                                                    <li><a href="index.html">Index</a></li>
-                                                    <li><a href="viagem.html">Sua Viagem</a></li>
-                                                    <li><a href="contato.html">Contato</a></li>
-                                                    <li><a href="sobre.html">Sobre</a></li>
-                                                    <li><a href="login.html">Login</a></li>
+                                                    <li><a href="index.jsp">Index</a></li>
+                                                    <li><a href="viagem.jsp">Sua Viagem</a></li>
+                                                    <li><a href="contato.jsp">Contato</a></li>
+                                                    <li><a href="sobre.jsp">Sobre</a></li>
+                                                    <li><a href="login.jsp">Login</a></li>
                                             </ul>
                                     </div>
 

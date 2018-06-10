@@ -30,7 +30,7 @@ public class ClienteDAO
     
     public boolean consultarCliente(){
         
-        String sql = "Select * from cliente where Cpf=? and Senha=?";//md5(?)
+        String sql = "Select * from cliente where Cpf=? and Senha=md5(?)";
         try {
             PreparedStatement stat = this.con.prepareStatement(sql);
             stat.setString(1, this.cliente.getCpf());
