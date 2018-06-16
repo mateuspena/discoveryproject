@@ -31,38 +31,27 @@ public class CadastroCliente extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-        String nome=request.getParameter("nome");
-            String cpf=request.getParameter("cpf");
-            String telefone=request.getParameter("telefone");
-            String email=request.getParameter("email");
-            String senha = request.getParameter("senha");
-            String data = request.getParameter("data");
-            
-        Cliente a = new Cliente(cpf,nome,telefone,email,senha, data);
-        RequestDispatcher dispatcher = null;
-        
-       if(a.incluirCliente()){
-           request.getSession().setAttribute("cliente", a); //puxa o objeto a para tirar as informacoes e jogar na pagina.
-            dispatcher = request.getRequestDispatcher("meuperfil.jsp");
-         
-        }else{
-         dispatcher = request.getRequestDispatcher("cadastrar.jsp");
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+    {
+        String nome = request.getParameter("nome");
+        String cpf = request.getParameter("cpf");
+        String telefone = request.getParameter("telefone");
+        String email = request.getParameter("email");
+        String senha = request.getParameter("senha");
+        String data = request.getParameter("data");
 
-       }
-       
-       dispatcher.forward(request,response);
-        
-        
-//        response.setContentType("text/html;charset=UTF-8");
-//        try (PrintWriter out = response.getWriter()) {
-//            
-//            
-//            
-//   
-//            
-//        }
+        Cliente c = new Cliente(cpf, nome, telefone, email, senha, data);
+
+        if ( c.incluirCliente() ) 
+        {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("meuperfil.jsp");
+            request.getSession().setAttribute("cliente", c);
+            dispatcher.forward(request, response);
+        }
+        else 
+        {
+            response.sendRedirect("login.jsp");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

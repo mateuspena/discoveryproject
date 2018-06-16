@@ -31,19 +31,22 @@ public class ExcluirCliente extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            String cpf_cliente = request.getParameter("cpfExcluir");
-            Cliente a = new Cliente(cpf_cliente);  //criar construtor so com cpf
-            RequestDispatcher dispatcher = null;
-            if(a.excluirCliente()){
-                dispatcher = request.getRequestDispatcher("index.jsp");
-              }else{
-               dispatcher = request.getRequestDispatcher("meuperfil.jsp");
-             }
-             dispatcher.forward(request,response);
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+    {
+        Cliente c = (Cliente)request.getSession().getAttribute("cliente");
+        
+        if ( c.excluirCliente() )
+        {
+            // Destruir sessão.
+            request.getSession().invalidate();
+            
+            // Configurar despachante.
+            RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+            dispatcher.forward(request, response);
+        }
+        else
+        {
+            response.sendRedirect("meuperfil.jsp");
         }
     }
 

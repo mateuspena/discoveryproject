@@ -7,20 +7,16 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import negocio.Cliente;
 
 /**
  *
- * @author Gilmar
+ * @author mateus
  */
-@WebServlet(name = "AcessoPerfil", urlPatterns = {"/AcessoPerfil"})
-public class AcessoPerfil extends HttpServlet {
+public class DesconectaCliente extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,20 +29,19 @@ public class AcessoPerfil extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
-        String cpf = request.getParameter("cpf");
-        String senha = request.getParameter("senha");
+        response.setContentType("text/html;charset=UTF-8");
         
-        Cliente c = new Cliente(cpf, senha);
-        
-        if ( c.validaAcesso() )
+        if ( request.getParameter("q").equals("true") 
+            && request.getSession().getAttribute("cliente") != null )
         {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("meuperfil.jsp");
-            request.getSession().setAttribute("cliente", c);
-            dispatcher.forward(request, response);
-        }
-        else 
-        {
-            response.sendRedirect("login.jsp");
+            request.getSession().invalidate();
+
+            try (PrintWriter out = response.getWriter()) {
+                out.println("<!DOCTYPE html>");
+                out.println("<html><head>");
+                out.println("<script>alert('Desconectado com Sucesso!'); location.href = 'index.jsp'; </script>");
+                out.println("</head></html>");
+            }
         }
     }
 

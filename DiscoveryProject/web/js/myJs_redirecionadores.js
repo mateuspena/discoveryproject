@@ -11,4 +11,13 @@ function toPageIndex()
     location.href = "index.jsp";
 }
 
+function toReclamacoes()
+{
+    location.href = "minhasreclamacoes.jsp";
+}
+
+function toMinhasViagens()
+{
+    location.href = "minhasviagens.jsp"
+}
 

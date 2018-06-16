@@ -17,10 +17,10 @@ import negocio.Cliente;
 
 /**
  *
- * @author Gilmar
+ * @author mateus
  */
-@WebServlet(name = "AcessoPerfil", urlPatterns = {"/AcessoPerfil"})
-public class AcessoPerfil extends HttpServlet {
+@WebServlet(name = "EditarCliente", urlPatterns = {"/EditarCliente"})
+public class EditarCliente extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,18 +33,15 @@ public class AcessoPerfil extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
-        String cpf = request.getParameter("cpf");
-        String senha = request.getParameter("senha");
-        
-        Cliente c = new Cliente(cpf, senha);
-        
-        if ( c.validaAcesso() )
+        // Verificar se existe usuário logado (na sessão).
+        // Se sim, encaminhar requisição para página "alterarcliente.jsp".
+        // Se não, abortar operação e retornar.
+        if ( request.getSession().getAttribute("cliente") != null ) 
         {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("meuperfil.jsp");
-            request.getSession().setAttribute("cliente", c);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("AlterarCliente.jsp");
             dispatcher.forward(request, response);
         }
-        else 
+        else
         {
             response.sendRedirect("login.jsp");
         }

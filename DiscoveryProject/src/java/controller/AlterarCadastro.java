@@ -6,7 +6,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,52 +30,34 @@ public class AlterarCadastro extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+    {
+        // Definir usuário a ser alterado no banco. (usuário logado)
+        String cpf = ((Cliente)request.getSession().getAttribute("cliente")).getCpf();
+        
+        // Pegar valores do formulário.
+        String nome = request.getParameter("nome");
+        String telefone = request.getParameter("telefone");
+        String email = request.getParameter("email");
+        String senha = request.getParameter("senha");
+        String data = request.getParameter("data");
+        
+        // Instanciar objeto de cliente.
+        Cliente c = new Cliente(cpf, nome, telefone, email, senha, data);
+        
+        // Tentar operação de atualização.
+        if ( c.atualizarCliente() )
+        {
+            // Atualizar sessão.
+            request.getSession().setAttribute("cliente", c);
             
-            String editar = request.getParameter("modificar");
-            if (editar.equals("Editar")){
-            
-                String cpf = request.getParameter("cpfAlterar");
-
-                Cliente cliente = new Cliente(cpf);
-                if (cliente.buscarCliente()){
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("AlterarCliente.jsp");
-                    request.getSession().setAttribute("cliente", cliente);
-                    dispatcher.forward(request, response);
-                }
-                else {
-                    response.sendRedirect("login.jsp");
-                 }
-                
-            }
-            if (editar.equals("Alterar")){
-                
-               String nome=request.getParameter("nome");
-               String cpf=request.getParameter("cpf");
-               String telefone=request.getParameter("telefone");
-               String email=request.getParameter("email");
-               String senha = request.getParameter("senha");
-               String data = request.getParameter("data");
-              
-            if(senha.isEmpty()){
-                senha = "";
-            }
-               Cliente a = new Cliente(cpf,nome,telefone,email,senha, data);
-               a.preencherData();
-               if(a.atualizarCliente()){
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("meuperfil.jsp");
-                    request.getSession().setAttribute("cliente", a);
-                    dispatcher.forward(request, response);
-               }
-                else {
-                   RequestDispatcher dispatcher = request.getRequestDispatcher("AterarCadastro.jsp");
-                   request.getSession().setAttribute("cliente", a);
-                   dispatcher.forward(request, response);
-               }
-            }         
+            // Configurar despachante.
+            RequestDispatcher dispatcher = request.getRequestDispatcher("meuperfil.jsp");
+            dispatcher.forward(request, response);
+        }
+        else
+        {
+            response.sendRedirect("index.jsp");
         }
     }
 

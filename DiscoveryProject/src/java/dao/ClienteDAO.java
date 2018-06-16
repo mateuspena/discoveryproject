@@ -20,95 +20,108 @@ import negocio.Cliente;
  */
 public class ClienteDAO 
 {
-    private Connection con;
     private Cliente cliente;
 
-    public ClienteDAO(Cliente cliente){
-        this.con = ConnectionFactory.getConnection();
+    public ClienteDAO(Cliente cliente)
+    {
         this.cliente = cliente;
     }
     
-    public boolean consultarCliente(){
+    public boolean consultarCliente()
+    {
+        Connection          conn    = ConnectionFactory.getConnection();
+        PreparedStatement   stmt    = null;
+        ResultSet           rs      = null;
         
-        String sql = "Select * from cliente where Cpf=? and Senha=md5(?)";
         try {
-            PreparedStatement stat = this.con.prepareStatement(sql);
-            stat.setString(1, this.cliente.getCpf());
-            stat.setString(2, this.cliente.getSenha());
-            ResultSet rs = stat.executeQuery();
+            String sql = "Select * from cliente where Cpf=? and Senha=md5(?)";
             
-            while(rs.next()){
-                String[] nasc = rs.getDate("DataNascimento").toString().split("-");
-                
-                this.cliente.setAno(Integer.parseInt(nasc[0]));
-                this.cliente.setMes(Integer.parseInt(nasc[1]));
-                this.cliente.setDia(Integer.parseInt(nasc[2]));
-                
-                this.cliente.setEmail(rs.getString("Email"));
-                this.cliente.setNome(rs.getString("Nome"));
-                this.cliente.setTelefone(rs.getString("Telefone"));
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, this.cliente.getCpf());
+            stmt.setString(2, this.cliente.getSenha());
+            
+            rs = stmt.executeQuery();
+            
+            if ( rs.next() ) 
+            {
+                this.cliente.setNome( rs.getString("Nome") );
+                this.cliente.setEmail( rs.getString("Email") );
+                this.cliente.setTelefone( rs.getString("Telefone") );
+                this.cliente.setData( rs.getString("DataNascimento") );
                 
                 return true;
             }
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
-    }
-    
-     public boolean buscarCliente(){
+        finally {
+            ConnectionFactory.closeConnection(conn, stmt, rs);
+        }
         
-        String sql = "Select * from cliente where Cpf=?";
-        try {
-            PreparedStatement stat = this.con.prepareStatement(sql);
-            stat.setString(1, this.cliente.getCpf());
-            ResultSet rs = stat.executeQuery();
-            
-            while(rs.next()){
-                String[] nasc = rs.getDate("DataNascimento").toString().split("-");
-                
-                this.cliente.setAno(Integer.parseInt(nasc[0]));
-                this.cliente.setMes(Integer.parseInt(nasc[1]));
-                this.cliente.setDia(Integer.parseInt(nasc[2]));
-                
-                this.cliente.setSenha(rs.getString("Senha"));
-                this.cliente.setEmail(rs.getString("Email"));
-                this.cliente.setNome(rs.getString("Nome"));
-                this.cliente.setTelefone(rs.getString("Telefone"));
-                
-                return true;
-                
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
         return false;
     }
     
-    public boolean excluirCliente(){
-        Connection conn = ConnectionFactory.getConnection();   
-        PreparedStatement stmt = null;
-        boolean result = false;
+//     public boolean buscaCliente(){
+//        
+//        String sql = "Select * from cliente where Cpf=?";
+//        try {
+//            PreparedStatement stat = this.con.prepareStatement(sql);
+//            stat.setString(1, this.cliente.getCpf());
+//            ResultSet rs = stat.executeQuery();
+//            
+//            while(rs.next()){
+//                String[] nasc = rs.getDate("DataNascimento").toString().split("-");
+//                
+//                this.cliente.setAno(Integer.parseInt(nasc[0]));
+//                this.cliente.setMes(Integer.parseInt(nasc[1]));
+//                this.cliente.setDia(Integer.parseInt(nasc[2]));
+//                
+//                this.cliente.setSenha(rs.getString("Senha"));
+//                this.cliente.setEmail(rs.getString("Email"));
+//                this.cliente.setNome(rs.getString("Nome"));
+//                this.cliente.setTelefone(rs.getString("Telefone"));
+//                
+//                return true;
+//                
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return false;
+//    }
+    
+    public boolean excluirCliente()
+    {
+        Connection conn         = ConnectionFactory.getConnection();   
+        PreparedStatement stmt  = null;
+        boolean result          = false;
 
         try {
-          String sql = "delete from Cliente where Cpf = ?"; 
-          PreparedStatement stat = con.prepareStatement(sql);  
-          stat.setString(1, this.cliente.getCpf()); 
-          result = (stat.executeUpdate() != 0) ? true : false ; //é execute update msm? + retorna 0 se conseguir
-         } catch (SQLException ex) {
+            String sql = "delete from Cliente where Cpf = ?"; 
+            
+            stmt = conn.prepareStatement(sql);  
+            stmt.setString(1, this.cliente.getCpf()); 
+            
+            result = (stmt.executeUpdate() > 0);
+        } 
+        catch (SQLException ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-         }
-         return result;
+        }
+        finally {
+            ConnectionFactory.closeConnection(conn, stmt);
+        }
+        
+        return result;
     }
     
-   public boolean cadastrarCliente(){
-       
-       Connection          conn    = ConnectionFactory.getConnection();
-       PreparedStatement   stmt    = null;
-       boolean             result  = false;
+   public boolean cadastrarCliente()
+   {
+        Connection          conn    = ConnectionFactory.getConnection();
+        PreparedStatement   stmt    = null;
+        boolean             result  = false;
         
-        
-         try {
+        try {
             String sql = "insert into cliente (Nome,Cpf,Email,Telefone,Senha,DataNascimento) values (?,?,?,?,md5(?),?)";
             PreparedStatement stat = conn.prepareStatement(sql); //prepara instrucao sql pra ser executada
             stat.setString(1, this.cliente.getNome());
@@ -118,68 +131,66 @@ public class ClienteDAO
             stat.setString(5, this.cliente.getSenha());
             stat.setString(6, this.cliente.getData());
 
-            result = (stat.executeUpdate() != 0) ? true : false ;
-        } catch (SQLException ex) {
+            result = (stat.executeUpdate() > 0);
+        } 
+        catch (SQLException ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally {
+            ConnectionFactory.closeConnection(conn, stmt);
         }
          
         return( result );
    }
     
-    public boolean atualizarCliente(){
-        String sql;
-                 
-        PreparedStatement stat;
-          
-        if (this.cliente.getSenha().equals("")){
-            sql = " update cliente set Nome = ?, Email = ?, Telefone = ?, DataNascimento = ? where Cpf = ?";
+    public boolean atualizarCliente()
+    {
+        Connection          conn    = ConnectionFactory.getConnection();
+        PreparedStatement   stmt    = null;
+        boolean             result  = false;
+        String              sql     = null;
+
+        if ( this.cliente.getSenha().equals("") )
+        {
+            sql = "update cliente set Nome = ?, Email = ?, Telefone = ?, DataNascimento = ? where Cpf = ?";
             try {
-                stat = con.prepareStatement(sql);
+                stmt = conn.prepareStatement(sql);
+                stmt.setString(1, this.cliente.getNome());
+                stmt.setString(2, this.cliente.getEmail());
+                stmt.setString(3, this.cliente.getTelefone());
+                stmt.setString(4, this.cliente.getData());
+                stmt.setString(5, this.cliente.getCpf());
                 
-                 stat.setString(1, this.cliente.getNome());
-                 stat.setString(2, this.cliente.getEmail());
-                 stat.setString(3, this.cliente.getTelefone());
-                 stat.setString(4, this.cliente.getData());
-                 stat.setString(5, this.cliente.getCpf());
-                 
-                 if(stat.executeUpdate()>0){
-                     
-                     return true;
-                 }
-                 
-                 
-            
+                result = (stmt.executeUpdate()>0);
+                System.out.println( "\n\n\nRESULTADO >>>>>> " + result + "\nCMD >>>>>> " + stmt.toString() );
             } catch (SQLException ex) {
-                Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } 
-        else {
-           sql = " update cliente set Senha = md5(?), Nome = ?, Email = ?, Telefone = ?, DataNascimento = ? where Cpf = ?";
-            try {
-                stat = con.prepareStatement(sql);
-                
-                stat.setString(1, this.cliente.getSenha());
-                stat.setString(2, this.cliente.getNome());
-                stat.setString(3, this.cliente.getEmail());
-                stat.setString(4, this.cliente.getTelefone());
-                stat.setString(5, this.cliente.getData());
-                stat.setString(6, this.cliente.getCpf());
-                
-               if(stat.executeUpdate()>0){
-                     
-                    return true;
-                 }
-                
-            } catch (SQLException ex) {
-                Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+                throw new RuntimeException("Erro ao Executar Consulta (1).", ex);
+            } 
+            finally {
+                ConnectionFactory.closeConnection(conn, stmt);
             }
         }
-        
-        
-        return false;
-    }
-    
-    public void fechaconexao(){
-        ConnectionFactory.closeConnection(this.con);
+        else
+        {
+            sql = "update cliente set Senha = md5(?), Nome = ?, Email = ?, Telefone = ?, DataNascimento = ? where Cpf = ?";
+            try {
+                stmt = conn.prepareStatement(sql);
+                stmt.setString(1, this.cliente.getSenha());
+                stmt.setString(2, this.cliente.getNome());
+                stmt.setString(3, this.cliente.getEmail());
+                stmt.setString(4, this.cliente.getTelefone());
+                stmt.setString(5, this.cliente.getData());
+                stmt.setString(6, this.cliente.getCpf());
+                
+                result = (stmt.executeUpdate()>0);
+            } catch (SQLException ex) {
+                throw new RuntimeException("Erro ao Executar Consulta (2).", ex);
+            }
+            finally {
+                ConnectionFactory.closeConnection(conn, stmt);
+            }
+        }
+
+        return( result );
     }
 }

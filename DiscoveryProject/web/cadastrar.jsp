@@ -12,6 +12,12 @@
                     alert("Por favor, preencha todos os campos obrigatórios!");
                     return( false );
                 }
+                else if ( cadastrar.senha.value!="" && cadastrar.senha.value!=cadastrar.cfm_senha.value )
+                {
+                    alert("As senhas informadas não conferem. Por favor, verifique.");
+                    return( false );
+                }
+
 
                 return( true );
             }

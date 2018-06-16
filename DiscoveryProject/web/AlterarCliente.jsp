@@ -6,17 +6,27 @@
 
 <%@page import="negocio.Cliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+    Cliente cliente = new Cliente();
+    cliente = (Cliente)request.getSession().getAttribute("cliente");
+%>
 <!DOCTYPE html>
 <html>
      <head>
         <%@include file="include/header.jsp" %>
-        <title>Cadastrar: Discovery Linhas Aéreas &mdash; Viaje com rápidez, conforto e preço!</title>
+        <title>Editar Perfil: Discovery Linhas Aéreas &mdash; Viaje com rápidez, conforto e preço!</title>
 
         <script type="text/javascript">
-            function validarCadastro(){
-                if ( cadastrar.cpf.value=="" || cadastrar.nome.value=="" || cadastrar.data.value=="" || cadastrar.email.value=="" || cadastrar.telefone.value=="")
+            function validarAlteracao(){
+                if ( alterar.cpf.value=="" || alterar.nome.value=="" || alterar.data.value=="" || alterar.email.value=="" || alterar.telefone.value=="")
                 {
                     alert("Por favor, preencha todos os campos obrigatórios!");
+                    return( false );
+                }
+                else if ( alterar.senha.value!="" && alterar.senha.value!=alterar.cfm_senha.value )
+                {
+                    alert("As senhas informadas não conferem. Por favor, verifique.");
                     return( false );
                 }
 
@@ -25,9 +35,9 @@
             
             function verificarCpf()
             {
-                if ( cadastrar.cpf.value!="" && !validaCpf(cadastrar.cpf.value) )
+                if ( alterar.cpf.value!="" && !validaCpf(alterar.cpf.value) )
                 {
-                    cadastrar.cpf.value = "";
+                    alterar.cpf.value = "";
                     alert("Por favor, preencha o campo CPF adequadamente.");
                 }  
             }
@@ -54,33 +64,14 @@
             <div class="container">
                 <div class="row animate-box">
                     <div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-                        <h2>Editor</h2>
+                        <h2>Editar Perfil</h2>
                     </div>
                 </div>
 
                 <div class="row animate-box">
-                    <%Cliente cliente = new Cliente();
-                         cliente = (Cliente)request.getSession().getAttribute("cliente");%>
                     <!-- INÍCIO - Formulário de Login -->
-                    <form name="alterar" method="post" OnSubmit="return validarCadastro()" action="AlterarCadastro" class="form-inline">
-                        <div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
-                            <div class="col-md-6 col-md-offset-3 col-sm-6">
-
-                                <!-- Campo CPF -->
-                                <input 
-                                    type="hidden" 
-                                    name="cpf" 
-                                    id="cpf"
-                                    value="<%= cliente.getCpf()%>"
-                                    onfocusout="verificarCpf()"
-                                    class="form-control" 
-                                    OnKeyDown="fMasc(this, mCPF)"
-                                    maxlength="14"
-                                    required
-                                >
-                            </div>
-                        </div>
-
+                    <form name="alterar" method="post" OnSubmit="return validarAlteracao()" action="AlterarCadastro" class="form-inline">
+                        
                         <div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
                             <div class="col-md-6 col-md-offset-3 col-sm-6">
                                 <label for="nome" style="color:#efefef">Nome</label>
@@ -107,7 +98,7 @@
                                     type="date"
                                     name="data"
                                     id="data" 
-                                    value="<%= cliente.getData2()%>"
+                                    value="<%= cliente.getData()%>"
                                     class="form-control"
                                     required
                                 enabled>
@@ -181,7 +172,7 @@
 
                         <div class="col-md-8 col-md-offset-2">
                             <div class="col-md-6 col-md-offset-3 col-sm-6">
-                                <p><input name="modificar" type="submit" class="btn btn-default btn-block" value="Alterar"></p>
+                                <p><input type="submit" class="btn btn-default btn-block" value="Alterar Cadastro"></p>
                             </div>
                         </div>
                     </form>
