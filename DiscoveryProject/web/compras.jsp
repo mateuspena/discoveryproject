@@ -40,7 +40,7 @@
             
             function validaCompra()
             {
-                if ( formulario.vencimento.value=="" )
+                if ( formulario.vencimento.value == "" )
                 {
                     alert("Por favor, preencha todos os campos obrigatórios!");
                     return( false );
@@ -85,8 +85,19 @@
                 
                 var valor = realToNumber( formulario.valor.value );
                 formulario.valparcelas.value = numberToReal( valor / formulario.qtdparcelas.value );
-            }                  
+            }   
             
+            function validaDigito(obj)
+            {
+                if ( obj.value <= 0 || obj.value > 999 ) 
+                {
+                    alert("ATENÇÃO!\n\nO dígito verificador do cartão informado é inválido.");
+                    obj.value = "";
+                }
+                else if ( obj.value < 10 ) obj.value = "00" + parseInt(obj.value);
+                else if ( obj.value < 100 ) obj.value = "0" + parseInt(obj.value);
+                else obj.value = parseInt(obj.value);
+            }
         </script>
     </head>
 
@@ -95,161 +106,164 @@
     <div class="fh5co-loader"></div>
 
     <div id="page">
-
-<!-- INÍCIO ~ Painel Superior ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-    <nav class="fh5co-nav" style="background-color:#0c9cee;height:50px;" role="navigation">
-            <div class="container" style="margin-top:-15px;">
-                    <div class="row">
-                            <div class="col-xs-2"></div>
-                            <div class="col-xs-10 text-right menu-1">
-                                    <ul>
-                                            <li><a href="index.html">Início</a></li>
-                                            <li><a href="viagem.html">Sua Viagem</a></li>
-                                            <li><a href="contato.html">Contato</a></li>
-                                            <li><a href="sobre.html">Sobre</a></li>
-                                            <li class="has-dropdown">
-                                                    <a href="services.html" style="color:#ffffff;">Meu Perfil</a>
-                                                    <ul class="dropdown">
-                                                            <li><a href="#" style="color:#0c9cee">Viagens</a></li>
-                                                            <li><a href="#">Reclamações</a></li>
-                                                            <li><a href="#">Sair</a></li>
-                                                    </ul>
-                                            </li>
-                                    </ul>
-                            </div>
-                    </div>
-            </div>
-    </nav>
-<!-- FINAL ~ Painel Superior ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <%@include file="include/navbar.jsp" %>
 
 <!-- INÍCIO ~ Conteúdo do Corpo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-    <div id="fh5co-contact" style="margin-top:50px">
-        <div class="container">
-            <div class="row">
+        <div id="fh5co-contact" style="margin-top:50px">
+            <div class="container">
+                <div class="row">
 
-                <!-- INÍCIO - Coluna da Esquerda -->
-                <div class="col-md-5 col-md-push-1 animate-box">
-                    <div class="fh5co-contact-info">
-                        <h3>Sua Viagem</h3>
-                        <ul>
-                            <li class="cidOrigem"> <b>Origem:</b> Salvador</li>
-                            <li class="cidDestino"> <b>Destino:</b> São Paulo </li>
-                            <li class="tipoPassagem"> <b>Tipo:</b> Apenas Ida / Ida e Volta</li>
-                            <li class="dataHora"> <b>Data:</b> 28/08/2038</li>
-                            <li class="cabine"> <b>Cabine:</b> Econômica / Primeira Classe</li>
-                        </ul>
+                    <!-- INÍCIO - Coluna da Esquerda -->
+                    <div class="col-md-5 col-md-push-1 animate-box">
+                        <div class="fh5co-contact-info">
+                            <h3>Sua Viagem</h3>
+                            <ul>
+                                <li class="cidOrigem"> <b>Origem:</b> Salvador</li>
+                                <li class="cidDestino"> <b>Destino:</b> São Paulo </li>
+                                <li class="tipoPassagem"> <b>Tipo:</b> Apenas Ida / Ida e Volta</li>
+                                <li class="dataHora"> <b>Data:</b> 28/08/2038</li>
+                                <li class="cabine"> <b>Cabine:</b> Econômica / Primeira Classe</li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <!-- FINAL - Coluna da Esquerda -->
+                    <!-- FINAL - Coluna da Esquerda -->
 
-                <!-- INÍCIO - Coluna da Direita -->
-                <div class="col-md-6 animate-box">
-                    <h3>Detalhes da Transação</h3>
-                    <form name="formulario" method="post" OnSubmit="return validaCompra()" action="minhasviagens.html">
+                    <!-- INÍCIO - Coluna da Direita -->
+                    <div class="col-md-6 animate-box">
+                        <h3>Detalhes da Transação</h3>
+                        <form name="formulario" method="post" OnSubmit="return validaCompra()" action="minhasviagens.html">
 
-                        <!-- INÍCIO - Linha 1 -->
-                        <div class="row form-group">
-                            <div class="col-md-7">
-                                <b>Forma de Pagamento</b>
-                                <div style="margin-top:15px">
+                            <!-- INÍCIO - Linha 1 -->
+                            <div class="row form-group">
+                                <div class="col-md-7">
+                                    <b>Número Cartão</b>
                                     <input 
-                                        type="radio" 
-                                        value="p" 
-                                        OnChange="validaFormaPagamento()" 
-                                        name="formapag" 
-                                        id="parcelado" 
-                                        checked
+                                        type="text" 
+                                        OnKeyPress="formatarCartao(this)"
+                                        name="cardnum" 
+                                        class="form-control"
+                                        maxlength="19"
+                                        required
                                     enabled>
-                                    <label for="parcelado" style="font-weight:normal;">Parcelado</label>
-
+                                </div>
+                                
+                                <div class="col-md-5">
+                                    <b>Dígito Cartão</b><br>
                                     <input 
-                                        style="margin-left:15px;" 
-                                        type="radio" 
-                                        value="av" 
-                                        OnChange="validaFormaPagamento()" 
-                                        name="formapag" 
-                                        id="avista"
+                                        type="Number" 
+                                        name="carddig" 
+                                        onFocusOut="validaDigito(this)"
+                                        class="form-control"
+                                        min="1"
+                                        max="999"
+                                        required
                                     enabled>
-                                    <label for="avista" style="font-weight:normal;">À Vista</label>
                                 </div>
                             </div>
+                            <!-- FINAL - Linha 1 -->                           
+                            
+                            <!-- INÍCIO - Linha 2 -->
+                            <div class="row form-group">
+                                <div class="col-md-7">
+                                    <b>Forma de Pagamento</b>
+                                    <div style="margin-top:15px">
+                                        <input 
+                                            type="radio" 
+                                            value="p" 
+                                            OnChange="validaFormaPagamento()" 
+                                            name="formapag" 
+                                            id="parcelado" 
+                                            checked
+                                        enabled>
+                                        <label for="parcelado" style="font-weight:normal;">Parcelado</label>
 
-                            <div class="col-md-5">
-                                <b>Valor Total</b><br>
-                                <input 
-                                    type="text" 
-                                    name="valor" 
-                                    class="form-control"
-                                disabled>
+                                        <input 
+                                            style="margin-left:15px;" 
+                                            type="radio" 
+                                            value="av" 
+                                            OnChange="validaFormaPagamento()" 
+                                            name="formapag" 
+                                            id="avista"
+                                        enabled>
+                                        <label for="avista" style="font-weight:normal;">À Vista</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <b>Valor Total</b><br>
+                                    <input 
+                                        type="text" 
+                                        name="valor" 
+                                        class="form-control"
+                                    disabled>
+                                </div>
                             </div>
-                        </div>
-                        <!-- FINAL - Linha 1 -->
+                            <!-- FINAL - Linha 2 -->
 
-                        <!-- INÍCIO - Linha 2 -->
-                        <div class="row form-group">
-                            <div class="col-md-3">
-                                <b>Parcelas</b><br>
-                                <input 
-                                    type="Number" 
-                                    name="qtdparcelas" 
-                                    id="qtdparcelas" 
-                                    OnChange="validaParcela()" 
-                                    class="form-control" 
-                                    value="1"
-                                enabled>
+                            <!-- INÍCIO - Linha 3 -->
+                            <div class="row form-group">
+                                <div class="col-md-3">
+                                    <b>Parcelas</b><br>
+                                    <input 
+                                        type="Number" 
+                                        name="qtdparcelas" 
+                                        id="qtdparcelas" 
+                                        OnChange="validaParcela()" 
+                                        class="form-control" 
+                                        value="1"
+                                    enabled>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <b>Valor Parcelas</b><br>
+                                    <input 
+                                        type="text" 
+                                        name="valparcelas" 
+                                        id="valparcelas" 
+                                        class="form-control"
+                                    disabled>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <b>Data Vencimento</b><br>
+                                    <input 
+                                        type="Date" 
+                                        name="vencimento"
+                                        id="vencimento" 
+                                        class="form-control"
+                                        required
+                                    enabled>
+                                </div>
                             </div>
+                            <!-- FINAL - Linha 3 -->
 
-                            <div class="col-md-4">
-                                <b>Valor Parcelas</b><br>
-                                <input 
-                                    type="text" 
-                                    name="valparcelas" 
-                                    id="valparcelas" 
-                                    class="form-control"
-                                disabled>
+                            <!-- INÍCIO - Linha 4 -->
+                            <div class="form-group" style="margin-top:30px;">
+                                <center>
+                                    <!-- Botão Confirmar -->
+                                    <input 
+                                        type="submit" 
+                                        value="Confirmar Compra" 
+                                        class="btn btn-primary"
+                                    enabled>
+
+                                    <!-- Botão Cancelar -->
+                                    <input 
+                                        type="button" 
+                                        value="Cancelar" 
+                                        class="btn btn-primary" 
+                                        OnClick="cancelar()"
+                                    enabled>
+                                </center>
                             </div>
+                            <!-- FINAL - Linha 4 -->
+                        </form>		
+                    </div>
+                    <!-- FINAL - Coluna da Direita -->
 
-                            <div class="col-md-5">
-                                <b>Data Vencimento</b><br>
-                                <input 
-                                    type="Date" 
-                                    name="vencimento"
-                                    id="vencimento" 
-                                    class="form-control"
-                                    required
-                                enabled>
-                            </div>
-                        </div>
-                        <!-- FINAL - Linha 2 -->
-
-                        <!-- INÍCIO - Linha 3 -->
-                        <div class="form-group" style="margin-top:30px;">
-                            <center>
-                                <!-- Botão Confirmar -->
-                                <input 
-                                    type="submit" 
-                                    value="Confirmar Compra" 
-                                    class="btn btn-primary"
-                                enabled>
-
-                                <!-- Botão Cancelar -->
-                                <input 
-                                    type="button" 
-                                    value="Cancelar" 
-                                    class="btn btn-primary" 
-                                    OnClick="cancelar()"
-                                enabled>
-                            </center>
-                        </div>
-                        <!-- FINAL - Linha 3 -->
-                    </form>		
                 </div>
-                <!-- FINAL - Coluna da Direita -->
-
             </div>
-
         </div>
-    </div>
 <!-- FINAL ~ Conteúdo do Corpo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
         <%@include file="include/footer.jsp" %>

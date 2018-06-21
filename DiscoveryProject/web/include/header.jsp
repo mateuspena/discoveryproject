@@ -38,4 +38,5 @@
 <script src="js/myJs_formatacpf.js"></script>
 <script src="js/myJs_redirecionadores.js"></script>
 <script src="js/myJs_formatadata.js"></script>
+<script src="js/myJs_formatacartao.js"></script>
 <!-- include/header.jsp: FINAL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
