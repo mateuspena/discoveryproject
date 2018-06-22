@@ -50,18 +50,17 @@ public class IndexPesquisaVoo extends HttpServlet {
             cabine,
             dataIda
         );
-        request.setAttribute("tIda", tIda);
         
         // Obter programações para a data de volta especificada, se tipo for 1.
+        ArrayList<Object[]> tVolta = null;
         if ( tipo == 1 )
         {
-            ArrayList<Object[]> tVolta = Programacao.pesquisarVoo(
+            tVolta = Programacao.pesquisarVoo(
                 destino,
                 origem,
                 cabine,
                 dataVolta
-            );  
-            request.setAttribute("tVolta", tVolta);
+            );
         }
         
         // Instanciar estrutura de dados para COMPRA
@@ -72,69 +71,14 @@ public class IndexPesquisaVoo extends HttpServlet {
         COMPRA.put("TipoViagem", tipo);             // Inteiro
         COMPRA.put("DataIda", dataIda);             // String
         COMPRA.put("DataVolta", dataVolta);         // String
+        COMPRA.put("tIda", tIda);                   // ArrayList<Object[]>
+        COMPRA.put("tVolta", tVolta);               // ArrayList<Object[]>
         
         request.getSession().setAttribute("COMPRA", COMPRA);
         
         // Encaminhar requisição e dados da consulta para página destino.
         RequestDispatcher dispatcher = request.getRequestDispatcher("viagem.jsp");
         dispatcher.forward(request, response);    
-        
-        
-        
-        
-        
-        
-        
-//        Cidade city =null;
-//        city = Cidade.consultaCidade(CidadeOrigem);
-//        Object[] cOrigem = {
-//            city.getIdCidade(),
-//            city.getCidade()
-//        };
-//        request.setAttribute("cOrigem", cOrigem);
-//        COMPRA.put("CidadeOrigem", city);
-//        
-//        city = Cidade.consultaCidade(CidadeDestino);
-//        Object[] cDestino = {
-//            city.getIdCidade(),
-//            city.getCidade()
-//        };
-//        request.setAttribute("cDestino", cDestino);
-//        COMPRA.put("CidadeDestino", CidadeDestino);
-//        
-//        // Obter lista de programações com a Data de Ida especificada.
-//        ArrayList<Object[]> tIda = Programacao.pesquisarVoo(
-//            CidadeOrigem,
-//            CidadeDestino,
-//            Cabine,
-//            request.getParameter("data_ida")
-//        );
-//        request.setAttribute("tIda", tIda);
-//        COMPRA.put("DataIda", request.getParameter("data_ida") );
-//        
-//        // Verificar se consulta envolve a volta.
-//        // Se sim, pesquisar programações com a Data de Volta especificada.
-//        if ( TipoViagem == 1 )
-//        {
-//            ArrayList<Object[]> tVolta = Programacao.pesquisarVoo(
-//                CidadeDestino,
-//                CidadeOrigem,
-//                Cabine,
-//                request.getParameter("data_volta")
-//            );  
-//            request.setAttribute("tVolta", tVolta);
-//            COMPRA.put("DataVolta", request.getParameter("data_volta") );
-//        }
-//        
-//        // Especificar detalhes adicionais de filtro da consulta.
-//        request.setAttribute("TipoViagem", TipoViagem);
-//        request.setAttribute("Cabine", Cabine);
-//        
-//        request.getSession().setAttribute("COMPRA", COMPRA);
-//        
-//        // Encaminhar requisição e dados da consulta para página destino.
-//        RequestDispatcher dispatcher = request.getRequestDispatcher("viagem.jsp");
-//        dispatcher.forward(request, response);        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

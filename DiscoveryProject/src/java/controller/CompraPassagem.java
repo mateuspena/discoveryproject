@@ -6,9 +6,9 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -32,27 +32,49 @@ public class CompraPassagem extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
+        // Carregar dados da estrutura de compra.
         HashMap<String, Object> COMPRA = (HashMap<String, Object>) request.getSession().getAttribute("COMPRA");
-        //aMap.put("a" , "Teste com hash map");
         
-        System.out.println( "\n\n\n HASH MAP ---> " + COMPRA.get("DataVolta") );
+        // Extrair lista de programações de Ida e pegar valor da programação selecionada.
+        ArrayList<Object[]> tIda = (ArrayList<Object[]>) COMPRA.remove("tIda");
+        int pIda    = Integer.parseInt( request.getParameter("select_ida") );
+        float vIda  = 0.0f;
+        for (int i=0; i< tIda.size(); i++)
+            if ( pIda == (int)tIda.get(i)[0] ) 
+            {
+                vIda = (float)tIda.get(i)[4];
+                break;
+            }
+        COMPRA.put("ProgIda", pIda);
+        COMPRA.put("ValorIda", vIda);
         
-        int progIda = Integer.parseInt( request.getParameter("select_ida") );
+        // Extrair lista de programações de Volta e pegar valor da programação selecionada.
+        ArrayList<Object[]> tVolta = (ArrayList<Object[]>) COMPRA.remove("tVolta");
+        int pVolta      = 0;
+        float vVolta    = 0.0f;
+        if ( tVolta!=null && (int)COMPRA.get("TipoViagem")==2 ) {
+            pVolta      = request.getParameter("select_volta")!=null ? Integer.parseInt( request.getParameter("select_volta") ) : 0;
+            if ( request.getParameter("select_volta")!=null )
+                for (int i=0; i< tVolta.size(); i++)
+                    if ( pVolta == (int)tVolta.get(i)[0] ) 
+                    {
+                        vVolta = (float)tVolta.get(i)[4];
+                        break;
+                    }
+            
+            COMPRA.put("ProgVolta", pVolta);
+            COMPRA.put("ValorVolta", vVolta);
+        }        
         
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CompraPassagem</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Programação de Ida: " + progIda + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        request.getSession().setAttribute("COMPRA", COMPRA);
+                
+        // Verificar se usuário esta conectado.
+        // Se sim, encaminhar para página "compras.jsp".
+        // Se não, encaminhar para página "login.jsp".
+        if ( request.getSession().getAttribute("cliente") != null )
+            response.sendRedirect("compras.jsp");
+        else
+            response.sendRedirect("login.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

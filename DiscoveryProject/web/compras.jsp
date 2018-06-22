@@ -2,6 +2,8 @@
 
 <% if ( request.getSession().getAttribute("cliente")==null ){ %>
 <script>location.href = "index.jsp";</script>
+<% } else if ( request.getSession().getAttribute("COMPRA")==null) { %>
+<script>location.href = "index.jsp";</script>
 <% } else { %>
 <!DOCTYPE HTML>
 <html>

@@ -33,16 +33,19 @@ public class AcessoPerfil extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
-        String cpf = request.getParameter("cpf");
-        String senha = request.getParameter("senha");
+        String cpf      = request.getParameter("cpf");
+        String senha    = request.getParameter("senha");
         
         Cliente c = new Cliente(cpf, senha);
         
         if ( c.validaAcesso() )
         {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("meuperfil.jsp");
             request.getSession().setAttribute("cliente", c);
-            dispatcher.forward(request, response);
+            
+            if ( request.getSession().getAttribute("COMPRA") != null )
+                response.sendRedirect("compras.jsp");
+            else
+                response.sendRedirect("meuperfil.jsp");
         }
         else 
         {

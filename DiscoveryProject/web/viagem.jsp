@@ -4,7 +4,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%   
-    // Carregar dados da pesquisa
+    // Carregar dados da pesquisa.
     HashMap<String, Object> COMPRA = (HashMap<String, Object>) request.getSession().getAttribute("COMPRA");
     
     int TipoViagem  = Integer.parseInt( COMPRA.get("TipoViagem").toString() );
@@ -14,11 +14,11 @@
     String dataIda      = (String) COMPRA.get("DataIda");
     String dataVolta    = (String) COMPRA.get("DataVolta");
 
-    // Carregar tabelas
-    ArrayList<Object[]> tIda    = (ArrayList<Object[]>) request.getAttribute("tIda");
-    ArrayList<Object[]> tVolta  = (ArrayList<Object[]>) request.getAttribute("tVolta");
+    // Carregar tabelas.
+    ArrayList<Object[]> tIda    = ((ArrayList<Object[]>) COMPRA.get("tIda"));
+    ArrayList<Object[]> tVolta  = ((ArrayList<Object[]>) COMPRA.get("tVolta"));
     
-    // Formatar dados para exibição
+    // Formatar dados para exibição.
     dataIda     = MyDataHora.toDateFormat( dataIda );
     dataVolta   = dataVolta!=null ? MyDataHora.toDateFormat( dataVolta ) : dataVolta;  
 %>
@@ -213,6 +213,7 @@
                             <% } %>
                             <!-- FINAL - Passagens de Volta -->
 
+                            <% if ( tIda.size()>0 ) { %>
                             <div class="form-group" style="margin-top:25px; margin-right:20px;">
                                 <center>
                                     <input 
@@ -227,6 +228,7 @@
                                     enabled>
                                 </center>
                             </div>
+                            <% } %>
                         </form>		
                     </div>
                     <!-- FINAL - Coluna da Direita -->
