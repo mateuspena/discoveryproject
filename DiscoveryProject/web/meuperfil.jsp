@@ -117,7 +117,7 @@
                                             font-weight:bold; 
                                             padding: 10px 20px 1px 20px"
                                         enabled>
-                                            <i class="icon-warning"></i>
+                                            <i class="icon-megaphone"></i>
                                             <p style="font-size:14px;">Reclamações</p>
                                     </button>
                                 </td>

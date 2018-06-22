@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import negocio.Cliente;
+import negocio.Functions.MyDataHora;
 
 /**
  *
@@ -34,7 +35,12 @@ public class ClienteDAO
         ResultSet           rs      = null;
         
         try {
-            String sql = "Select * from cliente where Cpf=? and Senha=md5(?)";
+            String sql = "SELECT "
+                    + "Nome, "
+                    + "Email, "
+                    + "Telefone, "
+                    + "date_format(DataNascimento, '%d/%m/%Y') as 'DataNascimento' "
+                    + "FROM cliente WHERE Cpf=? and Senha=md5(?)";
             
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, this.cliente.getCpf());
@@ -158,11 +164,10 @@ public class ClienteDAO
                 stmt.setString(1, this.cliente.getNome());
                 stmt.setString(2, this.cliente.getEmail());
                 stmt.setString(3, this.cliente.getTelefone());
-                stmt.setString(4, this.cliente.getData());
+                stmt.setString(4, MyDataHora.toUTC(this.cliente.getData()) );
                 stmt.setString(5, this.cliente.getCpf());
                 
                 result = (stmt.executeUpdate()>0);
-                System.out.println( "\n\n\nRESULTADO >>>>>> " + result + "\nCMD >>>>>> " + stmt.toString() );
             } catch (SQLException ex) {
                 throw new RuntimeException("Erro ao Executar Consulta (1).", ex);
             } 
@@ -179,7 +184,7 @@ public class ClienteDAO
                 stmt.setString(2, this.cliente.getNome());
                 stmt.setString(3, this.cliente.getEmail());
                 stmt.setString(4, this.cliente.getTelefone());
-                stmt.setString(5, this.cliente.getData());
+                stmt.setString(5, MyDataHora.toUTC(this.cliente.getData()) );
                 stmt.setString(6, this.cliente.getCpf());
                 
                 result = (stmt.executeUpdate()>0);

@@ -211,15 +211,6 @@
                                             font-family:Verdana;
                                         " 
                                     enabled>
-                                    <button
-                                        onClick="toPageIndex()" 
-                                        class="btn btn-primary"  
-                                        style="
-                                            background-color:#024457; 
-                                            border: 1px solid #024457;
-                                            font-family:Verdana;
-                                        " 
-                                    enabled>Voltar</button>
                                 </center>
                             </div>
                         </form>		

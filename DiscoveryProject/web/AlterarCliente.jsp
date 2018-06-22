@@ -4,6 +4,7 @@
     Author     : Gilmar
 --%>
 
+<%@page import="negocio.Functions.MyDataHora"%>
 <%@page import="negocio.Cliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -98,7 +99,7 @@
                                     type="date"
                                     name="data"
                                     id="data" 
-                                    value="<%= cliente.getData()%>"
+                                    value="<%= MyDataHora.toUTC( cliente.getData() )%>"
                                     class="form-control"
                                     required
                                 enabled>

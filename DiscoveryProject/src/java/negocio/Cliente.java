@@ -6,6 +6,7 @@
 package negocio;
 
 import dao.ClienteDAO;
+import negocio.Functions.MyDataHora;
 
 /**
  *
@@ -64,12 +65,12 @@ public class Cliente {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public Cliente(String cpf, String nome, String telefone, String email, String senha, String data) 
     {
-        this.cpf        = cpf;
-        this.nome       = nome;
-        this.telefone   = telefone;
-        this.email      = email;
-        this.senha      = senha;
-        this.data       = data;
+        this.setCpf(cpf);
+        this.setNome(nome);
+        this.setTelefone(telefone);
+        this.setEmail(email);
+        this.setSenha(senha);
+        this.setData(data);
     }
     
     public Cliente(String cpf, String senha) {
@@ -92,8 +93,15 @@ public class Cliente {
         return( this.data );
     }
     
+    /**
+     * Preenche o atributo data com uma string no formato dd/mm/yyyy.
+     * @param data
+     */
     public void setData(String data) {
-        this.data = data;
+        if  ( data.contains("-") )
+            this.data = MyDataHora.toDateFormat(data);
+        else
+            this.data = data;
     }
     
     public String getSenha() {

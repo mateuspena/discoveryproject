@@ -36,11 +36,11 @@ public class AlterarCadastro extends HttpServlet {
         String cpf = ((Cliente)request.getSession().getAttribute("cliente")).getCpf();
         
         // Pegar valores do formulário.
-        String nome = request.getParameter("nome");
+        String nome     = request.getParameter("nome");
         String telefone = request.getParameter("telefone");
-        String email = request.getParameter("email");
-        String senha = request.getParameter("senha");
-        String data = request.getParameter("data");
+        String email    = request.getParameter("email");
+        String senha    = request.getParameter("senha");
+        String data     = request.getParameter("data");
         
         // Instanciar objeto de cliente.
         Cliente c = new Cliente(cpf, nome, telefone, email, senha, data);
