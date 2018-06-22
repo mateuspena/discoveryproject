@@ -1,4 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<% if ( request.getSession().getAttribute("cliente")==null ){ %>
+<script>location.href = "index.jsp";</script>
+<% } else { %>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -277,3 +281,5 @@
     <%@include file="include/footscripts.jsp" %>
     </body>
 </html>
+
+<% } %>

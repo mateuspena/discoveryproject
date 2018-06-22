@@ -1,6 +1,9 @@
 <%@page import="negocio.Cliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<% if ( request.getSession().getAttribute("cliente")==null ){ %>
+<script>location.href = "index.jsp";</script>
+<% } else { %>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -38,7 +41,6 @@
     </head>
 
     <body>
-
     <div class="fh5co-loader"></div>
     <div id="page">
         <%@include file="include/navbar.jsp" %>
@@ -50,22 +52,23 @@
                     <!-- INÍCIO - Coluna da Esquerda -->
                     <div class="col-md-4 col-md-push-1 animate-box">
                         <%
-                        Cliente cliente = new Cliente();
-                        cliente = (Cliente)request.getSession().getAttribute("cliente");
+                        Cliente c = new Cliente();
+                        c = (Cliente)request.getSession().getAttribute("cliente");
                         %>
                         <div class="fh5co-contact-info">
                             <h3>Meu Perfil</h3>
                             <ul>
-                                <li class="nomeCliente"> <b>Nome: </b><%= cliente.getNome()%></li>
-                                <li class="cpfCliente"> <b>CPF: </b> <%= cliente.getCpf()%> </li>
-                                <li class="emailCliente"> <b>Email: </b> <%= cliente.getEmail()%></li>
-                                <li class="dataNascimento"> <b>Data de Nascimento: </b> <%=  cliente.getData()%></li>
+                                <li class="nomeCliente"> <b>Nome: </b><%= c.getNome()%></li>
+                                <li class="cpfCliente"> <b>CPF: </b> <%= c.getCpf()%> </li>
+                                <li class="emailCliente"> <b>Email: </b> <%= c.getEmail()%></li>
+                                <li class="dataNascimento"> <b>Data de Nascimento: </b> <%=  c.getData()%></li>
                             </ul>
                         </div>
                     </div>
                     <!-- FINAL - Coluna da Esquerda -->
-
+                    
                     <!-- INÍCIO - Coluna da Direita -->
+                    <div class="col-md-7 col-md-push-1 animate-box">
                     <center>
                         <table border="0">
                             <col width="150px">
@@ -138,6 +141,7 @@
                             </tr>
                         </table>
                     </center>
+                    </div>
                     <!-- FINAL - Coluna da Direita -->
                 </div>
             </div>
@@ -150,3 +154,5 @@
     <%@include file="include/footscripts.jsp" %>
     </body>
 </html>
+
+<% } %>
