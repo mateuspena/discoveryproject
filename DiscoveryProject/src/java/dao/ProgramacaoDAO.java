@@ -17,12 +17,14 @@ public abstract class ProgramacaoDAO
         ArrayList<Object[]> lst   = new ArrayList<>();
         
         try {            
+            String valor = cabine == 1 ? "v.ValorEconomica as 'Valor'" : "v.ValorPrimeiraClasse as 'Valor'";
+            
             stmt = conn.prepareStatement( "SELECT " +
                 "   p.Codigo as 'CodProgramacao', " +
                 "   cOrigem.Cidade as 'Origem', " +
                 "   cDestino.Cidade as 'Destino', " +
                 "   date_format(p.DataSaida, '%d/%m/%Y %H:%i:%s') as 'Data', " +
-                "   v.ValorReal as 'Valor' " +
+                valor +
                 "FROM " +
                 "   programacao p " +
                 "   INNER JOIN voo v ON p.NumeroVoo = v.Numero " +
@@ -34,7 +36,8 @@ public abstract class ProgramacaoDAO
                 "   ast.Cabine = ? " +
                 "   AND cOrigem.idCidade = ? " +
                 "   AND cDestino.idCidade = ? " +
-                "   AND p.DataSaida BETWEEN ? and ? "
+                "   AND p.DataSaida BETWEEN ? and ? " +
+                "ORDER BY p.DataSaida "  
             );
             stmt.setInt(1, cabine);
             stmt.setInt(2, cOrigem);

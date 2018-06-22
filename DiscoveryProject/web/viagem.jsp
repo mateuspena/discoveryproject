@@ -1,12 +1,26 @@
+<%@page import="negocio.*"%>
+<%@page import="negocio.Functions.*"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%   
+    // Carregar dados da pesquisa
+    HashMap<String, Object> COMPRA = (HashMap<String, Object>) request.getSession().getAttribute("COMPRA");
+    
+    int TipoViagem  = Integer.parseInt( COMPRA.get("TipoViagem").toString() );
+    int Cabine      = Integer.parseInt( COMPRA.get("Cabine").toString() );
+    String cOrigem  = ((Cidade) COMPRA.get("CidadeOrigem")).getCidade();
+    String cDestino = ((Cidade) COMPRA.get("CidadeDestino")).getCidade();
+    String dataIda      = (String) COMPRA.get("DataIda");
+    String dataVolta    = (String) COMPRA.get("DataVolta");
+
+    // Carregar tabelas
     ArrayList<Object[]> tIda    = (ArrayList<Object[]>) request.getAttribute("tIda");
     ArrayList<Object[]> tVolta  = (ArrayList<Object[]>) request.getAttribute("tVolta");
-    int TipoViagem  = Integer.parseInt(request.getAttribute("TipoViagem").toString());
-    int Cabine      = Integer.parseInt(request.getAttribute("Cabine").toString());
-    String cOrigem    = (String) ((Object[])request.getAttribute("cOrigem"))[1];
-    String cDestino   = (String) ((Object[])request.getAttribute("cDestino"))[1];
+    
+    // Formatar dados para exibição
+    dataIda     = MyDataHora.toDateFormat( dataIda );
+    dataVolta   = dataVolta!=null ? MyDataHora.toDateFormat( dataVolta ) : dataVolta;  
 %>
 <!DOCTYPE HTML>
 <html>
@@ -107,13 +121,13 @@
                         <div class="fh5co-contact-info">
                             <h3>Sua Viagem</h3>
                             <ul>
-                                <li class="cidOrigem"> <b>Origem:</b> <%=cOrigem %></li>
-                                <li class="cidDestino"> <b>Destino:</b> <%=cDestino %></li>
-                                <li class="tipoPassagem"> <b>Tipo:</b> <% if (TipoViagem==1) out.print("Ida & Volta"); else out.print("Apenas Ida"); %></li>
-                                <li class="dataHora"> <b>Data da Ida:</b> <script>document.write(dateToFormatPrint('<%=request.getParameter("data_ida") %>'))</script></li>
+                                <li class="cidOrigem"> <b>Origem: </b><%=cOrigem %></li>
+                                <li class="cidDestino"> <b>Destino: </b><%=cDestino %></li>
+                                <li class="tipoPassagem"> <b>Tipo: </b><% if (TipoViagem==1) out.print("Ida & Volta"); else out.print("Apenas Ida"); %></li>
+                                <li class="dataHora"> <b>Data da Ida: </b><%=dataIda %></li>
                                 
                                 <% if ( TipoViagem == 1 ) {%>
-                                <li class="dataHora"> <b>Data da Volta:</b> <script>document.write(dateToFormatPrint('<%=request.getParameter("data_volta") %>'))</script></li>
+                                <li class="dataHora"> <b>Data da Volta: </b><%=dataVolta %></li>
                                 <% } %>
                                 
                                 <li class="cabine"> <b>Cabine:</b> <% if (Cabine==1) out.print("Econômica"); else out.print("Primeira Classe"); %></li>
@@ -124,7 +138,7 @@
 
                     <!-- INÍCIO - Coluna da Direita -->
                     <div class="col-md-7 animate-box">
-                        <form method="post" action="#" name="viagem">
+                        <form method="post" action="CompraPassagem" name="viagem">
                             
                             <!-- INÍCIO - Passagens de Ida -->
                             <h3>Viagens Disponíveis (Ida)</h3>
