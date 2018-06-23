@@ -8,6 +8,10 @@
         <servlet-name>CompraPassagem</servlet-name>
         <servlet-class>controller.CompraPassagem</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ConfirmaCompra</servlet-name>
+        <servlet-class>controller.ConfirmaCompra</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DesconectaCliente</servlet-name>
         <url-pattern>/DesconectaCliente</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>CompraPassagem</servlet-name>
         <url-pattern>/CompraPassagem</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfirmaCompra</servlet-name>
+        <url-pattern>/ConfirmaCompra</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

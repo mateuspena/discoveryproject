@@ -7,17 +7,36 @@ import java.util.ArrayList;
  *
  * @author Bianca
  */
-public class Programacao {
+public class Programacao 
+{
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // ATRIBUTOS
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     private int     codigo;
     private String  dataSaida;
     private String  dataChegada;
     private Voo     numeroVoo;
-
-    /*@Override
-    public String toString() {
-        return "Programacao{" + "codigo=" + codigo + ", diaSaida=" + diaSaida + ", mesSaida=" + mesSaida + ", anoSaida=" + anoSaida + ", diaChegada=" + diaChegada + ", mesChegada=" + mesChegada + ", anoChegada=" + anoChegada + ", numeroVoo=" + numeroVoo + '}';
-    }*/
     
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // CONSTRUTORES
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public Programacao(int codigo, String dataSaida, String dataChegada, Voo numeroVoo) {
+        this.codigo         = codigo;
+        this.dataSaida      = dataSaida;
+        this.dataChegada    = dataChegada;
+        this.numeroVoo      = numeroVoo;
+    }
+    
+    public Programacao(int codigo)
+    {
+        this.codigo = codigo;
+    }
+    
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // DATA ACCESS OBJECTS
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public static ArrayList<Object[]> pesquisarVoo(int cOrigem, int cDestino, int cabine, String dtVoo)
     {
         Object[] data = {
@@ -27,16 +46,11 @@ public class Programacao {
         
         return( ProgramacaoDAO.pesquisarVoo(cOrigem, cDestino, cabine, data) );
     }
-
     
-    // Construtores, getters e setters.
-    public Programacao(int codigo, String dataSaida, String dataChegada, Voo numeroVoo) {
-        this.codigo = codigo;
-        this.dataSaida = dataSaida;
-        this.dataChegada = dataChegada;
-        this.numeroVoo = numeroVoo;
-    }
-
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // GETTERS & SETTERS
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public int getCodigo() {
         return codigo;
     }

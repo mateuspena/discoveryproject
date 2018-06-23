@@ -45,14 +45,17 @@ public class CompraPassagem extends HttpServlet {
                 vIda = (float)tIda.get(i)[4];
                 break;
             }
-        COMPRA.put("ProgIda", pIda);
-        COMPRA.put("ValorIda", vIda);
+        Object[] Ida = {
+            pIda,   // Id da Programação de Ida Selecionada.
+            vIda    // Valor da Programação.
+        };
+        COMPRA.put("Ida", Ida);
         
         // Extrair lista de programações de Volta e pegar valor da programação selecionada.
         ArrayList<Object[]> tVolta = (ArrayList<Object[]>) COMPRA.remove("tVolta");
         int pVolta      = 0;
         float vVolta    = 0.0f;
-        if ( tVolta!=null && (int)COMPRA.get("TipoViagem")==2 ) {
+        if ( tVolta!=null && (int)COMPRA.get("TipoViagem")==1 ) {
             pVolta      = request.getParameter("select_volta")!=null ? Integer.parseInt( request.getParameter("select_volta") ) : 0;
             if ( request.getParameter("select_volta")!=null )
                 for (int i=0; i< tVolta.size(); i++)
@@ -61,9 +64,11 @@ public class CompraPassagem extends HttpServlet {
                         vVolta = (float)tVolta.get(i)[4];
                         break;
                     }
-            
-            COMPRA.put("ProgVolta", pVolta);
-            COMPRA.put("ValorVolta", vVolta);
+            Object[] Volta = {
+                pVolta,   // Id da Programação de Volta Selecionada.
+                vVolta    // Valor da Programação.
+            };
+            COMPRA.put("Volta", Volta);
         }        
         
         request.getSession().setAttribute("COMPRA", COMPRA);

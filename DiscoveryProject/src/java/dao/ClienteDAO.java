@@ -129,15 +129,16 @@ public class ClienteDAO
         
         try {
             String sql = "insert into cliente (Nome,Cpf,Email,Telefone,Senha,DataNascimento) values (?,?,?,?,md5(?),?)";
-            PreparedStatement stat = conn.prepareStatement(sql); //prepara instrucao sql pra ser executada
-            stat.setString(1, this.cliente.getNome());
-            stat.setString(2, this.cliente.getCpf());
-            stat.setString(3, this.cliente.getEmail());
-            stat.setString(4, this.cliente.getTelefone());
-            stat.setString(5, this.cliente.getSenha());
-            stat.setString(6, this.cliente.getData());
+            
+            stmt = conn.prepareStatement(sql); //prepara instrucao sql pra ser executada
+            stmt.setString(1, this.cliente.getNome());
+            stmt.setString(2, this.cliente.getCpf());
+            stmt.setString(3, this.cliente.getEmail());
+            stmt.setString(4, this.cliente.getTelefone());
+            stmt.setString(5, this.cliente.getSenha());
+            stmt.setString(6, this.cliente.getData());
 
-            result = (stat.executeUpdate() > 0);
+            result = (stmt.executeUpdate() > 0);
         } 
         catch (SQLException ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);

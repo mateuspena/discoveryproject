@@ -1,109 +1,121 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package discovery.negocio;
+package negocio;
 
-/**
- *
- * @author Bianca
- */
-public class Passagem {
-    private int codigo, codigoProgramacao, idAssento;
-    private String cpfCliente;
-    private boolean cancelamento;
-    private int diaCheck, mesCheck, anoCheck;
+import dao.PassagemDAO;
 
-    public Passagem(int codigo, int codigoProgramacao, int idAssento, String cpfCliente, boolean cancelamento, int diaCheck, int mesCheck, int anoCheck) {
-        this.codigo = codigo;
-        this.codigoProgramacao = codigoProgramacao;
-        this.idAssento = idAssento;
-        this.cpfCliente = cpfCliente;
-        this.cancelamento = cancelamento;
-        this.diaCheck = diaCheck;
-        this.mesCheck = mesCheck;
-        this.anoCheck = anoCheck;
+public class Passagem 
+{
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // ATRIBUTOS
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    private int             codigo;
+    private boolean         cancelada;
+    private String          dataCheckIn;
+    private int             cabine;
+    private Assento         assento;
+    private Programacao     programacao;
+    private Cliente         cliente;
+    private Pagamento       pagamento;
+    
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // CONSTRUTORES
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~    
+    public Passagem(int codigo, boolean cancelada, String dataCheckIn, int cabine, Assento assento, Programacao programacao, Cliente cliente, Pagamento pagamento)
+    {
+        this.codigo         = codigo;
+        this.cancelada      = cancelada;
+        this.dataCheckIn    = dataCheckIn;
+        this.cabine         = cabine;
+        this.assento        = assento;
+        this.programacao    = programacao;
+        this.cliente        = cliente;
+        this.pagamento      = pagamento;
+    }
+    
+    public Passagem(int CodProgramacao, int cabine, Pagamento pag, Cliente clt) 
+    {
+        this.programacao    = new Programacao(CodProgramacao);
+        this.pagamento      = pag;
+        this.cliente        = clt;
+        this.cabine         = cabine;
+    }
+    
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // DATA ACCESS OBJECTS
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public boolean confirmarCompra()
+    {
+        PassagemDAO dao = new PassagemDAO(this);
+        return( dao.comprarPassagem() );
+    }
+    
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // GETTERS & SETTERS
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public int getCodigo() {
+        return codigo;
     }
 
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
-    public void setCodigoProgramacao(int codigoProgramacao) {
-        this.codigoProgramacao = codigoProgramacao;
+    public boolean isCancelada() {
+        return cancelada;
     }
 
-    public void setIdAssento(int idAssento) {
-        this.idAssento = idAssento;
+    public void setCancelada(boolean cancelada) {
+        this.cancelada = cancelada;
     }
 
-    public void setCpfCliente(String cpfCliente) {
-        this.cpfCliente = cpfCliente;
+    public String getDataCheckIn() {
+        return dataCheckIn;
     }
 
-    public void setCancelamento(boolean cancelamento) {
-        this.cancelamento = cancelamento;
+    public void setDataCheckIn(String dataCheckIn) {
+        this.dataCheckIn = dataCheckIn;
     }
 
-    public void setDiaCheck(int diaCheck) {
-        this.diaCheck = diaCheck;
+    public int getCabine() {
+        return cabine;
     }
 
-    public void setMesCheck(int mesCheck) {
-        this.mesCheck = mesCheck;
+    public void setCabine(int cabine) {
+        this.cabine = cabine;
     }
 
-    public void setAnoCheck(int anoCheck) {
-        this.anoCheck = anoCheck;
-    }
-    
-    public int getCodigo() {
-        return codigo;
+    public Assento getAssento() {
+        return assento;
     }
 
-    public int getCodigoProgramacao() {
-        return codigoProgramacao;
+    public void setAssento(Assento assento) {
+        this.assento = assento;
     }
 
-    public int getIdAssento() {
-        return idAssento;
+    public Programacao getProgramacao() {
+        return programacao;
     }
 
-    public String getCpfCliente() {
-        return cpfCliente;
+    public void setProgramacao(Programacao programacao) {
+        this.programacao = programacao;
     }
 
-    public boolean isCancelamento() {
-        return cancelamento;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public int getDiaCheck() {
-        return diaCheck;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public int getMesCheck() {
-        return mesCheck;
+    public Pagamento getPagamento() {
+        return pagamento;
     }
 
-    public int getAnoCheck() {
-        return anoCheck;
+    public void setPagamento(Pagamento pagamento) {
+        this.pagamento = pagamento;
     }
-
-    @Override
-    public String toString() {
-        return "Passagem{" + "codigo=" + codigo + ", codigoProgramacao=" + codigoProgramacao + ", idAssento=" + idAssento + ", cpfCliente=" + cpfCliente + ", cancelamento=" + cancelamento + ", diaCheck=" + diaCheck + ", mesCheck=" + mesCheck + ", anoCheck=" + anoCheck + '}';
-    }
-    
-    public void CheckIn(){
-        
-    }
-    
-    public void cancelaPassagem(){
-        this.cancelamento=true;
-    }
-    
- 
-    
     
 }

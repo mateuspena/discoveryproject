@@ -33,6 +33,17 @@
                     alert("FALHA!\nVocê deve selecionar cidades diferentes.");
                     return( false );
                 }
+                else if ( pesquisavoo.tipo.value == "1" )
+                {
+                    var dtIda = new Date(pesquisavoo.data_ida.value);
+                    var dtVolta = new Date(pesquisavoo.data_volta.value);
+                    
+                    if ( dtIda > dtVolta ) 
+                    {
+                        alert("FALHA!\nAinda não ofertamos viagem no tempo.");
+                        return( false );
+                    }
+                }
                 
                 return( true );
             }

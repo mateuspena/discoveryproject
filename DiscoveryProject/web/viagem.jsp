@@ -124,13 +124,13 @@
                                 <li class="cidOrigem"> <b>Origem: </b><%=cOrigem %></li>
                                 <li class="cidDestino"> <b>Destino: </b><%=cDestino %></li>
                                 <li class="tipoPassagem"> <b>Tipo: </b><% if (TipoViagem==1) out.print("Ida & Volta"); else out.print("Apenas Ida"); %></li>
-                                <li class="dataHora"> <b>Data da Ida: </b><%=dataIda %></li>
+                                <li class="dataHora"> <b>Data de Ida: </b><%=dataIda %></li>
                                 
                                 <% if ( TipoViagem == 1 ) {%>
                                 <li class="dataHora"> <b>Data da Volta: </b><%=dataVolta %></li>
                                 <% } %>
                                 
-                                <li class="cabine"> <b>Cabine:</b> <% if (Cabine==1) out.print("Econômica"); else out.print("Primeira Classe"); %></li>
+                                <li class="cabine"> <b>Cabine: </b><% if (Cabine==1) out.print("Econômica"); else out.print("Primeira Classe"); %></li>
                             </ul>
                         </div>
                     </div>
