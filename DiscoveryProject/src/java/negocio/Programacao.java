@@ -39,12 +39,7 @@ public class Programacao
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public static ArrayList<Object[]> pesquisarVoo(int cOrigem, int cDestino, int cabine, String dtVoo)
     {
-        Object[] data = {
-            dtVoo + " 00:00:00",
-            dtVoo + " 23:59:00"
-        };
-        
-        return( ProgramacaoDAO.pesquisarVoo(cOrigem, cDestino, cabine, data) );
+        return( ProgramacaoDAO.pesquisarVoo(cOrigem, cDestino, cabine, dtVoo) );
     }
     
     

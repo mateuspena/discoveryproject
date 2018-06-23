@@ -213,7 +213,11 @@
                             <% } %>
                             <!-- FINAL - Passagens de Volta -->
 
-                            <% if ( tIda.size()>0 ) { %>
+                            <% 
+                                if ( tIda.size()<=0 ) out.println("<br>"); 
+                                else if ( TipoViagem == 1 && tVolta.size()<=0 ) out.println("<br>");  
+                                else {
+                            %>
                             <div class="form-group" style="margin-top:25px; margin-right:20px;">
                                 <center>
                                     <input 

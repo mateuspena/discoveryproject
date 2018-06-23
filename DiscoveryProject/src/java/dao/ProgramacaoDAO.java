@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public abstract class ProgramacaoDAO 
 {
-    public static ArrayList<Object[]> pesquisarVoo(int cOrigem, int cDestino, int cabine, Object[] data)
+    public static ArrayList<Object[]> pesquisarVoo(int cOrigem, int cDestino, int cabine, String data)
     {
         Connection          conn    = ConnectionFactory.getConnection();
         PreparedStatement   stmt    = null;
@@ -20,30 +20,28 @@ public abstract class ProgramacaoDAO
             String valor = cabine == 1 ? "v.ValorEconomica as 'Valor'" : "v.ValorPrimeiraClasse as 'Valor'";
             
             stmt = conn.prepareStatement( "SELECT " +
-                "   p.Codigo as 'CodProgramacao', " +
+                "   distinct p.Codigo as 'CodProgramacao', " +
                 "   cOrigem.Cidade as 'Origem', " +
                 "   cDestino.Cidade as 'Destino', " +
-                "   date_format(p.DataSaida, '%d/%m/%Y %H:%i:%s') as 'Data', " +
+                "   date_format(p.DataSaida, '%d/%m/%Y %H:%i') as 'Data', " +
                 valor +
                 "FROM " +
                 "   programacao p " +
                 "   INNER JOIN voo v ON p.NumeroVoo = v.Numero " +
-                "   INNER JOIN cidade cOrigem ON v.CidadeOrigem = cOrigem.idCidade " +
-                "   INNER JOIN cidade cDestino ON v.CidadeDestino = cDestino.idCidade " +
-                "   INNER JOIN aeronave an ON v.Aeronave = an.Prefixo " +
-                "   INNER JOIN assento ast ON an.Prefixo = ast.Aeronave " +
+                "   INNER JOIN cidade cOrigem ON v.CidadeOrigem = cOrigem.IdCidade " +
+                "   INNER JOIN cidade cDestino ON v.CidadeDestino = cDestino.IdCidade " +
+                "   INNER JOIN aeronave av ON v.Aeronave = av.Prefixo " +
+                "   INNER JOIN assento ast ON av.Prefixo = ast.Aeronave " +
                 "WHERE " +
                 "   ast.Cabine = ? " +
-                "   AND cOrigem.idCidade = ? " +
-                "   AND cDestino.idCidade = ? " +
-                "   AND p.DataSaida BETWEEN ? and ? " +
+                "   AND cOrigem.idCidade = ? AND cDestino.idCidade = ? " +
+                "   AND date(p.DataSaida) = ? " +
                 "ORDER BY p.DataSaida "  
             );
             stmt.setInt(1, cabine);
             stmt.setInt(2, cOrigem);
             stmt.setInt(3, cDestino);
-            stmt.setString(4, (String)data[0] );
-            stmt.setString(5, (String)data[1] );
+            stmt.setString(4, data );
             
             rs = stmt.executeQuery();
                     
