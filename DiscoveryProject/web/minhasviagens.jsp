@@ -1,8 +1,16 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="negocio.Cliente"%>
+<%@page import="negocio.Passagem"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% if ( request.getSession().getAttribute("cliente")==null ){ %>
 <script>location.href = "index.jsp";</script>
 <% } else { %>
+<%
+    //Cliente c = (Cliente) request.getSession().getAttribute("cliente");
+    Passagem p = new Passagem((Cliente) request.getSession().getAttribute("cliente"));
+    ArrayList<Object[]> lst = p.listarMinhasPassagens();
+%>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -48,54 +56,43 @@
 
                     <form name="viagens" method="post" action="#">
                         <table class="responstable">
-                            <col width="50px">
-                            <col width="100px">
-                            <col width="100px">
+                            <col width="30px">
                             <col width="150px">
+                            <col width="100px">
+                            <col width="100px">
                             <col width="150px">
                             <col width="100px">
                             <col width="100px">
 
                             <thead>
                                 <th>Item</th>
-                                <th>Código</th>
+                                <th>Data Voo</th>
+                                <th>Status</th>
                                 <th>Assento</th>
+                                <th>Checkin</th>
                                 <th>Cidade Origem</th>
                                 <th>Cidade Destino</th>
-                                <th>Data CheckIn</th>
-                                <th>Status</th>
                             </thead>
 
                             <tbody>
+                                <% if ( lst.size()>0 ) { for (int i=0; i< lst.size(); i++) { %>
+                                <% Object[] row = lst.get(i); %>
                                 <tr>
-                                    <td><input type="radio" name="item" value="123"></td>
-                                    <td>123</td>
-                                    <td>2</td>
-                                    <td>Salvador</td>
-                                    <td>Rio de janeiro</td>
-                                    <td>00/00/00</td>
-                                    <td>Ativo</td>
+                                    <td><input type="radio" name="item" value="<%=row[0] %>"></td>
+                                    <td><%=row[1] %></td>
+                                    <td><% if ( ((String)row[2]).equals("Ativa") ) {out.print("<b style='color:green'>" + row[2] + "</b>");} else {out.print("<b style='color:red'>" + row[2] + "</b>");} %></td>
+                                    <td><% if ( ((String)row[3]).equals("0") ) {out.print("<i>Não Escolhido</i>");} else {out.print(row[3]);} %></td>
+                                    <td><% if ( ((String)row[4]).equals("Pendente") ) {out.print("<i>" + row[4] + "</i>");} else {out.print(row[4]);} %></td>
+                                    <td><%=row[5] %></td>
+                                    <td><%=row[6] %></td>
                                 </tr>
-
+                                <% } } else { %>
                                 <tr>
-                                    <td><input type="radio" name="item" value="1"></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td colspan="7">
+                                        <center><i>Nenhuma passagem foi encontrada.</i></center>
+                                    </td>
                                 </tr>
-
-                                <tr>
-                                    <td><input type="radio" name="item" value="2"></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                <% } %>
                             </tbody>
                         </table>
 

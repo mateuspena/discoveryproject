@@ -12,7 +12,8 @@ import negocio.Functions.MyDataHora;
  *
  * @author Bianca
  */
-public class Cliente {
+public class Cliente 
+{
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // ATRIBUTOS
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

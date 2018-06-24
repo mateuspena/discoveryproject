@@ -1,6 +1,8 @@
 package negocio;
 
 import dao.PassagemDAO;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Passagem 
 {
@@ -41,6 +43,12 @@ public class Passagem
     }
     
     
+    public Passagem(Cliente c)
+    {
+        this.cliente = c;
+    }
+    
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // DATA ACCESS OBJECTS
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -48,6 +56,12 @@ public class Passagem
     {
         PassagemDAO dao = new PassagemDAO(this);
         return( dao.comprarPassagem() );
+    }
+    
+    public ArrayList<Object[]> listarMinhasPassagens()
+    {
+        PassagemDAO dao = new PassagemDAO(this);
+        return( dao.listarMinhasPassagens() );
     }
     
     
