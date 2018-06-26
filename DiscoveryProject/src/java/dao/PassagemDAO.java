@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import negocio.Passagem;
+import negocio.Programacao;
 
 public class PassagemDAO 
 {
@@ -91,7 +92,7 @@ public class PassagemDAO
                 "   passagem.Codigo as '_Passagem', " +
                 "   date_format(programacao.DataSaida, '%d/%m/%Y %H:%i:%s') as 'DataVoo', " +
                 "   if (passagem.Cancelada = 0, 'Ativa', 'Cancelada') as 'Status', " +
-                "   if (passagem.Assento IS NOT NULL, concat('A', assento.Aeronave, if (passagem.Cabine = 1, 'E', 'P'), passagem.Assento), 0) as 'Assento', " +
+                "   if (passagem.Assento IS NOT NULL, concat('A', assento.Aeronave, if (passagem.Cabine = 1, 'E', 'P'), passagem.Assento), 'Não Escolhido') as 'Assento', " +
                 "   if (passagem.DataCheckIn IS NULL, 'Pendente', date_format(passagem.DataCheckIn, '%d/%m/%Y %H:%i:%s')) as 'Checkin', " +
                 "   cidade1.Cidade as 'CidadeOrigem', " +
                 "   cidade2.Cidade as 'CidadeDestino' " +
@@ -133,5 +134,108 @@ public class PassagemDAO
         }        
         
         return(lst);
+    }
+    
+    
+    
+    public boolean cancelar()
+    {
+        Connection          conn    = ConnectionFactory.getConnection();
+        PreparedStatement   stmt    = null;
+        boolean             result  = false;
+        
+        try {
+            String sql = "UPDATE passagem SET Cancelada = 1 WHERE Codigo = ? AND DataCheckIn IS NULL";
+            
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, this.passagem.getCodigo() );
+            
+            result = ( stmt.executeUpdate() > 0 );
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(PassagemDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally {
+            ConnectionFactory.closeConnection(conn, stmt);
+        }  
+        
+        return( result );
+    }
+    
+    
+    public boolean checkin(int assento)
+    {
+        Connection          conn    = ConnectionFactory.getConnection();
+        PreparedStatement   stmt    = null;
+        boolean             result  = false;
+        
+        try {
+            String sql = "UPDATE passagem SET DataCheckIn = now(), Assento = ? WHERE Codigo = ? AND DataCheckIn IS NULL";
+            
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, assento );
+            stmt.setInt(2, this.passagem.getCodigo() );
+            
+            result = ( stmt.executeUpdate() > 0 );
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(PassagemDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally {
+            ConnectionFactory.closeConnection(conn, stmt);
+        }  
+        
+        return( result );
+    }
+    
+    
+    
+    public static Object[] consultar(int codigo)
+    {
+        Connection          conn    = ConnectionFactory.getConnection();
+        PreparedStatement   stmt    = null;
+        ResultSet           rs      = null;
+        Object[]            result  = null;
+        
+        try {
+            String sql = "SELECT " +
+                "   passagem.Cabine as '_Cabine', " +
+                "   passagem.Programacao as '_Programacao', " +
+                "   cidade1.Cidade as 'CidadeOrigem', " +
+                "   cidade2.Cidade as 'CidadeDestino', " +
+                "   date_format(programacao.DataSaida, '%d/%m/%Y %H:%i') as 'Data' " +
+                "FROM passagem " +
+                "   INNER JOIN programacao ON passagem.Programacao = programacao.Codigo " +
+                "   INNER JOIN voo ON programacao.NumeroVoo = voo.Numero " +
+                "   INNER JOIN cidade cidade1 ON voo.CidadeOrigem = cidade1.IdCidade " +
+                "   INNER JOIN cidade cidade2 ON voo.CidadeDestino = cidade2.IdCidade " +
+                "WHERE  " +
+                "   passagem.Codigo = ? " +
+                "   AND Cancelada = 0 AND DataCheckIn IS NULL ";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, codigo );
+            
+            rs = stmt.executeQuery();
+            if ( rs.next() )
+            {
+                Object[] row = {
+                    rs.getString("_Cabine"),
+                    rs.getString("_Programacao"),
+                    rs.getString("CidadeOrigem"),
+                    rs.getString("CidadeDestino"),
+                    rs.getString("Data")
+                };
+                
+                result = row;
+            }
+        } 
+        catch (SQLException ex) {
+            Logger.getLogger(PassagemDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally {
+            ConnectionFactory.closeConnection(conn, stmt, rs);
+        }
+        
+        return( result );
     }
 }

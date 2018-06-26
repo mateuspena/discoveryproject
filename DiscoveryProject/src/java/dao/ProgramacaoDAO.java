@@ -6,9 +6,29 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import negocio.Programacao;
 
-public abstract class ProgramacaoDAO 
+public class ProgramacaoDAO 
 {
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // ATRIBUTOS
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    private Programacao programacao;
+    
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // CONSTRUTORES
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public ProgramacaoDAO(Programacao programacao) {
+        this.programacao = programacao;
+    }
+    
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // DATA ACCESS OBJECTS
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public static ArrayList<Object[]> pesquisarVoo(int cOrigem, int cDestino, int cabine, String data)
     {
         Connection          conn    = ConnectionFactory.getConnection();
@@ -60,6 +80,55 @@ public abstract class ProgramacaoDAO
         } catch (SQLException e) {
             throw new RuntimeException("Erro na conexão", e);
         } finally {
+            ConnectionFactory.closeConnection(conn, stmt, rs);
+        }
+        
+        return( lst );
+    }
+    
+    
+    
+    
+    public ArrayList<Object[]> assentosDisponiveis(int cabine)
+    {
+        Connection          conn    = ConnectionFactory.getConnection();
+        PreparedStatement   stmt    = null;
+        ResultSet           rs      = null;
+        ArrayList<Object[]> lst   = new ArrayList<>();
+        
+        try {
+            String sql = "SELECT " +
+                "   assento.IdAssento as '_IdAssento', " +
+                "   concat('A', assento.Aeronave, if (assento.Cabine = 1, 'E', 'P'), assento.IdAssento) as 'Assento' " +
+                "FROM assento " +
+                "   INNER JOIN aeronave ON assento.Aeronave = aeronave.Prefixo " +
+                "   INNER JOIN voo ON aeronave.Prefixo = voo.Aeronave " +
+                "   INNER JOIN programacao ON voo.Numero = programacao.NumeroVoo " +
+                "WHERE " +
+                "   programacao.Codigo = ? " +
+                "   AND assento.Cabine = ? " +
+                "   AND assento.IdAssento NOT IN( SELECT if (Assento IS NULL, 0, Assento) FROM passagem WHERE Programacao = ?) ";
+            
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, this.programacao.getCodigo() );
+            stmt.setInt(2, cabine );
+            stmt.setInt(3, this.programacao.getCodigo() );
+            
+            rs = stmt.executeQuery();
+            while ( rs.next() )
+            {
+                Object[] row = {
+                    rs.getString("_IdAssento"),
+                    rs.getString("Assento")
+                };
+                
+                lst.add(row);
+            }
+        } 
+        catch (SQLException ex) {
+            Logger.getLogger(ProgramacaoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        finally {
             ConnectionFactory.closeConnection(conn, stmt, rs);
         }
         

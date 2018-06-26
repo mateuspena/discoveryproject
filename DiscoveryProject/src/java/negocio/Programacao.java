@@ -43,6 +43,13 @@ public class Programacao
     }
     
     
+    public ArrayList<Object[]> assentosDisponiveis(int cabine)
+    {
+        ProgramacaoDAO dao = new ProgramacaoDAO(this);
+        return( dao.assentosDisponiveis(cabine) );
+    }
+    
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // GETTERS & SETTERS
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -12,6 +12,14 @@
         <servlet-name>ConfirmaCompra</servlet-name>
         <servlet-class>controller.ConfirmaCompra</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProcessaViagem</servlet-name>
+        <servlet-class>controller.ProcessaViagem</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RealizaCheckin</servlet-name>
+        <servlet-class>controller.RealizaCheckin</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DesconectaCliente</servlet-name>
         <url-pattern>/DesconectaCliente</url-pattern>
@@ -23,6 +31,14 @@
     <servlet-mapping>
         <servlet-name>ConfirmaCompra</servlet-name>
         <url-pattern>/ConfirmaCompra</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProcessaViagem</servlet-name>
+        <url-pattern>/ProcessaViagem</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RealizaCheckin</servlet-name>
+        <url-pattern>/RealizaCheckin</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

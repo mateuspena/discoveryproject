@@ -42,6 +42,16 @@ public class Passagem
         this.cabine         = cabine;
     }
     
+    public Passagem(int programacao, int cabine)
+    {
+        this.programacao    = new Programacao(programacao);
+        this.cabine         = cabine;
+    }
+    
+    public Passagem(int codigo)
+    {
+        this.codigo         = codigo; 
+    }
     
     public Passagem(Cliente c)
     {
@@ -62,6 +72,24 @@ public class Passagem
     {
         PassagemDAO dao = new PassagemDAO(this);
         return( dao.listarMinhasPassagens() );
+    }
+    
+    public boolean cancelarPassagem()
+    {
+        PassagemDAO dao = new PassagemDAO(this);
+        return( dao.cancelar() );
+    }
+    
+    
+    public static Object[] consultar(int codigo)
+    {
+        return( PassagemDAO.consultar(codigo) );
+    }
+    
+    public boolean realizarCheckin(int assento)
+    {
+        PassagemDAO dao = new PassagemDAO(this);
+        return( dao.checkin(assento) );
     }
     
     

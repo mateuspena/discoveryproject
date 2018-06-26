@@ -1,25 +1,34 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package negocio;
 
-/**
- *
- * @author Bianca
- */
-public class Assento {
-    private int idAssento, idAeronave,tipo;
-    private String localizacao;
-
-    public Assento(int idAssento, int idAeronave, int tipo, String localizacao) {
-        this.idAssento = idAssento;
-        this.idAeronave = idAeronave;
-        this.tipo = tipo;
-        this.localizacao = localizacao;
+public class Assento 
+{
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // ATRIBUTOS
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    private int         idAssento;
+    private int         cabine;
+    private Aeronave    aeronave;
+    
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // CONSTRUTORES
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public Assento(int idAssento, int cabine, Aeronave aeronave) 
+    {
+        this.idAssento  = idAssento;
+        this.cabine     = cabine;
+        this.aeronave   = aeronave;
     }
-
+    
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // DATA ACCESS OBJECTS
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // GETTERS & SETTERS
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public int getIdAssento() {
         return idAssento;
     }
@@ -28,36 +37,21 @@ public class Assento {
         this.idAssento = idAssento;
     }
 
-    public int getIdAeronave() {
-        return idAeronave;
+    public int getCabine() {
+        return cabine;
     }
 
-    public void setIdAeronave(int idAeronave) {
-        this.idAeronave = idAeronave;
+    public void setCabine(int cabine) {
+        this.cabine = cabine;
     }
 
-    public int getTipo() {
-        return tipo;
+    public Aeronave getAeronave() {
+        return aeronave;
     }
 
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
+    public void setAeronave(Aeronave aeronave) {
+        this.aeronave = aeronave;
     }
-
-    public String getLocalizacao() {
-        return localizacao;
-    }
-
-    public void setLocalizacao(String localizacao) {
-        this.localizacao = localizacao;
-    }
-
-    @Override
-    public String toString() {
-        return "Assento{" + "idAssento=" + idAssento + ", idAeronave=" + idAeronave + ", tipo=" + tipo + ", localizacao=" + localizacao + '}';
-    }
-    
-    
     
     
 }
