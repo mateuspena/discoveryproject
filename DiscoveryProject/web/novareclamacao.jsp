@@ -3,6 +3,10 @@
 <% if ( request.getSession().getAttribute("cliente")==null ){ %>
 <script>location.href = "index.jsp";</script>
 <% } else { %>
+<%
+    Object[] passagem               = (Object[]) request.getAttribute("passagem");
+    int codPassagem                 = Integer.parseInt( request.getParameter("item") );
+%>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -37,10 +41,6 @@
         </style>
 
         <script type="text/javascript">
-            function cancelar()
-            {
-                window.location.href = "index.html";
-            }		
 
             function validaReclamacao()
             {
@@ -69,11 +69,11 @@
                         <div class="fh5co-contact-info">
                             <h3>Dados da Viagem</h3>
                             <ul>
-                                <li class="passagem"> <b>Passagem:</b> 123</li>
-                                <li class="cidOrigem"> <b>Origem:</b> Salvador</li>
-                                <li class="cidDestino"> <b>Destino:</b> São Paulo </li>
-                                <li class="dataHora"> <b>Data:</b> 28/08/2038</li>
-                                <li class="cabine"> <b>Cabine:</b> Econômica / Primeira Classe</li>
+                                <li class="passagem"> <b>Passagem: </b><%=codPassagem %></li>
+                                <li class="cidOrigem"> <b>Origem: </b><%=passagem[2] %></li>
+                                <li class="cidDestino"> <b>Destino: </b><%=passagem[3] %></li>
+                                <li class="dataHora"> <b>Data: </b><%=passagem[4] %></li>
+                                <li class="cabine"> <b>Cabine: </b><% if (passagem[0].equals("1")) {out.print("Econômica");} else {out.print("Primeira Classe");} %></li>
                             </ul>
                         </div>
                     </div>
@@ -82,39 +82,29 @@
                     <!-- INÍCIO - Coluna da Direita -->
                     <div class="col-md-6 animate-box">
                         <h3>Abrir Nova Reclamação</h3>
-                        <form name="reclamacao" method="post" OnSubmit="return validaReclamacao()" action="minhasreclamacoes.html">
+                        <form name="reclamacao" method="post" OnSubmit="return validaReclamacao()" action="AbreReclamacao">
+                            
+                            <INPUT type="hidden" name="codpassagem" value="<%=codPassagem %>">
+                            
                             <!-- INÍCIO - Linha 1 -->
-                            <div class="row form-group">
-                                <div class="col-md-12">
-                                    <b>Data de Abertura</b><br>
-                                    <input 
-                                        type="date" 
-                                        name="abertura" 
-                                        id="valor" 
-                                        class="form-control"
-                                    disabled>
-                                </div>
-                            </div>
-                            <!-- FINAL - Linha 1 -->
-
-                            <!-- INÍCIO - Linha 2 -->
                             <div class="row form-group">
                                 <div class="col-md-12">
                                     <b>Descrição do Problema</b><br>
                                     <textarea 
                                         name="descricao" 
                                         id="descricao"
+                                        name="descricao"
                                         maxlength="200"
                                         rows="5" 
                                         class="form-control" 
                                         placeholder="Diga-nos o que esta pensado." 
-                                            required
+                                        required
                                     enabled></textarea>
                                 </div>
                             </div>
-                            <!-- FINAL - Linha 2 -->
+                            <!-- FINAL - Linha 1 -->
 
-                            <!-- INÍCIO - Linha 3 -->
+                            <!-- INÍCIO - Linha 2 -->
                             <div class="form-group" style="margin-top:30px;">
                                 <center>
                                     <!-- Botão Confirmar -->
@@ -129,11 +119,11 @@
                                         type="button" 
                                         value="Cancelar" 
                                         class="btn btn-primary" 
-                                        OnClick="cancelar()"
+                                        OnClick="toIndexPage()"
                                     enabled>
                                 </center>
                             </div>
-                            <!-- FINAL - Linha 3 -->
+                            <!-- FINAL - Linha 2 -->
                         </form>		
                     </div>
                     <!-- FINAL - Coluna da Direita -->

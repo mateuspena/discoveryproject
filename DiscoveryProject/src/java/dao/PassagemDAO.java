@@ -5,13 +5,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import negocio.Passagem;
-import negocio.Programacao;
 
 public class PassagemDAO 
 {
@@ -211,7 +208,7 @@ public class PassagemDAO
                 "   INNER JOIN cidade cidade2 ON voo.CidadeDestino = cidade2.IdCidade " +
                 "WHERE  " +
                 "   passagem.Codigo = ? " +
-                "   AND Cancelada = 0 AND DataCheckIn IS NULL ";
+                "   AND Cancelada = 0 ";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, codigo );
             

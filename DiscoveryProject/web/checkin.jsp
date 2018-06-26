@@ -55,10 +55,6 @@
         </style>
 
         <script type="text/javascript">
-            function cancelar()
-            {
-                window.location.href = "index.html";
-            }		
             
             function selectLinha(tabela, linha)
             {
@@ -97,30 +93,32 @@
                         <h3>Checkin de Passagem</h3>
                         <form name="reclamacao" method="post" OnSubmit="return validaReclamacao()" action="RealizaCheckin">
                             <div style="overflow-y: auto; height:300px; margin-top:-15px;">
-                            <INPUT type="hidden" name="codpassagem" value="<%=codPassagem %>">
-                            <table class="responstable" id="assentos" style="margin-top:-1px;">
-                                <col width="15%">
-                                <col width="85%">
-                                
-                                <thead>
-                                    <th>Item</th>
-                                    <th>Assento</th>
-                                </thead>
-                                
-                                <tbody>
-                                    <% if (assentos.size()>0) for (int i=0; i< assentos.size(); i++) { %>
-                                    <% Object[] linha = assentos.get(i); %>
-                                    <tr onClick="selectLinha('assentos', <%=i+1 %>)">
-                                        <td><input type="radio" name="item" value="<%=linha[0] %>" required></td>
-                                        <td><%=linha[1] %></td>
-                                    </tr>
-                                    <% } else { %>
-                                    <tr> 
-                                        <td><i>Nenhum assento está disponível.</i></td>
-                                    </tr>
-                                    <% } %>
-                                </tbody>
-                            </table></div>
+                                <INPUT type="hidden" name="codpassagem" value="<%=codPassagem %>">
+
+                                <table class="responstable" id="assentos" style="margin-top:-1px;">
+                                    <col width="15%">
+                                    <col width="85%">
+
+                                    <thead>
+                                        <th>Item</th>
+                                        <th>Assento</th>
+                                    </thead>
+
+                                    <tbody>
+                                        <% if (assentos.size()>0) for (int i=0; i< assentos.size(); i++) { %>
+                                        <% Object[] linha = assentos.get(i); %>
+                                        <tr onClick="selectLinha('assentos', <%=i+1 %>)">
+                                            <td><input type="radio" name="item" value="<%=linha[0] %>" required></td>
+                                            <td><%=linha[1] %></td>
+                                        </tr>
+                                        <% } else { %>
+                                        <tr> 
+                                            <td><i>Nenhum assento está disponível.</i></td>
+                                        </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
                             <!--  -->
 
                             <!-- INÍCIO - Linha 3 -->
@@ -139,7 +137,7 @@
                                         type="button" 
                                         value="Cancelar" 
                                         class="btn btn-primary" 
-                                        OnClick="cancelar()"
+                                        OnClick="toIndexPage()"
                                     enabled>
                                 </center>
                             </div>

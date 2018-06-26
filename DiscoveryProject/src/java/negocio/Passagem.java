@@ -2,7 +2,6 @@ package negocio;
 
 import dao.PassagemDAO;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Passagem 
 {

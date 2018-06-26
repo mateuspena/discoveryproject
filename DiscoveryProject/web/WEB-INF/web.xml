@@ -20,6 +20,10 @@
         <servlet-name>RealizaCheckin</servlet-name>
         <servlet-class>controller.RealizaCheckin</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AbreReclamacao</servlet-name>
+        <servlet-class>controller.AbreReclamacao</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DesconectaCliente</servlet-name>
         <url-pattern>/DesconectaCliente</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>RealizaCheckin</servlet-name>
         <url-pattern>/RealizaCheckin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AbreReclamacao</servlet-name>
+        <url-pattern>/AbreReclamacao</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

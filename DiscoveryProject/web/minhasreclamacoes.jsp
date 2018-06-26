@@ -1,8 +1,14 @@
+<%@page import="negocio.Cliente"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="negocio.Reclamacao"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% if ( request.getSession().getAttribute("cliente")==null ){ %>
 <script>location.href = "index.jsp";</script>
 <% } else { %>
+<%
+    ArrayList<Reclamacao> reclamacoes = Reclamacao.listar( ((Cliente)request.getSession().getAttribute("cliente")).getCpf() );
+%>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -39,39 +45,28 @@
 
                     <center>
                         <table class="responstable">
-                            <col width="100px">
-                            <col width="200px">
-                            <col width="300px">
-                            <col width="100px">
+                            <col width="10%">
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="50%">
 
                             <thead>
-                                <th>Código Passagem</th>
-                                <th>Abertura da Reclamação</th>
-                                <th>Descrição</th>
+                                <th>Passagem</th>
                                 <th>Situação</th>
+                                <th>Data de Abertura</th>
+                                <th>Descrição</th>
                             </thead>
 
                             <tbody>
+                                <% if (reclamacoes.size()>0) for (int i=0; i< reclamacoes.size(); i++) { %>
+                                <% Reclamacao r = reclamacoes.get(i); %>
                                 <tr>
-                                    <td>1</td>
-                                    <td>20/02/2037</td>
-                                    <td>Minhas bagagens se perderam.</td>
-                                    <td>Aberta</td>
+                                    <td><%=r.getPassagem().getCodigo() %></td>
+                                    <td><% if ( r.getSituacao().equals("Cadastrada") ) {out.print("<b style='color:red'>" + r.getSituacao() + "</b>");} else if ( r.getSituacao().equals("Finalizada") ) {out.print("<b style='color:green'>" + r.getSituacao() + "</b>");} else {out.print("<b style='color:blue'>" + r.getSituacao() + "</b>");} %></td>
+                                    <td><%=r.getDataAbertura() %></td>
+                                    <td><%=r.getDescricao() %></td>
                                 </tr>
-
-                                <tr>
-                                    <td>2</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-
-                                <tr>
-                                    <td>3</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                <% } %>
                             </tbody>
                         </table>
                     </center>

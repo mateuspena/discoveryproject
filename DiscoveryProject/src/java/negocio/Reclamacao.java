@@ -1,78 +1,83 @@
-
 package negocio;
 
-/**
- *
- * @author Bianca
- */
-public class Reclamacao {
-    private int codigoPassagem;
-    private int descricao, situacao;
-    private int dia, mes, ano;
+import dao.ReclamacaoDAO;
+import java.util.ArrayList;
 
-    public Reclamacao(int codigoPassagem, int descricao, int situacao, int dia, int mes, int ano) {
-        this.codigoPassagem = codigoPassagem;
-        this.descricao = descricao;
-        this.situacao = situacao;
-        this.dia = dia;
-        this.mes = mes;
-        this.ano = ano;
+public class Reclamacao 
+{
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // ATRIBUTOS
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    private Passagem    passagem;
+    private String      situacao;
+    private String      dataAbertura;
+    private String      descricao;
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // CONSTRUTORES
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public Reclamacao(Passagem passagem, String situacao, String dataAbertura, String descricao) 
+    {
+        this.passagem       = passagem;
+        this.situacao       = situacao;
+        this.dataAbertura   = dataAbertura;
+        this.descricao      = descricao;
+    }
+    
+    public Reclamacao(int passagem, String descricao)
+    {
+        this.passagem       = new Passagem(passagem);
+        this.descricao      = descricao;
+    }
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // DATA ACCESS OBJECTS
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public boolean abreReclamacao()
+    {
+        ReclamacaoDAO dao = new ReclamacaoDAO(this);
+        return( dao.abreReclamacao() );
+    }
+    
+    public static ArrayList<Reclamacao> listar(String cpf)
+    {
+        return( ReclamacaoDAO.listar(cpf) );
+    }
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // GETTERS & SETTERS
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public Passagem getPassagem() {
+        return passagem;
     }
 
-    public int getCodigoPassagem() {
-        return codigoPassagem;
+    public void setPassagem(Passagem passagem) {
+        this.passagem = passagem;
     }
 
-    public void setCodigoPassagem(int codigoPassagem) {
-        this.codigoPassagem = codigoPassagem;
-    }
-
-    public int getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(int descricao) {
-        this.descricao = descricao;
-    }
-
-    public int getSituacao() {
+    public String getSituacao() {
         return situacao;
     }
 
-    public void setSituacao(int situacao) {
+    public void setSituacao(String situacao) {
         this.situacao = situacao;
     }
 
-    public int getDia() {
-        return dia;
+    public String getDataAbertura() {
+        return dataAbertura;
     }
 
-    public void setDia(int dia) {
-        this.dia = dia;
+    public void setDataAbertura(String dataAbertura) {
+        this.dataAbertura = dataAbertura;
     }
 
-    public int getMes() {
-        return mes;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setMes(int mes) {
-        this.mes = mes;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
-    public int getAno() {
-        return ano;
-    }
-
-    public void setAno(int ano) {
-        this.ano = ano;
-    }
-
-    @Override
-    public String toString() {
-        return "Reclamacao{" + "codigoPassagem=" + codigoPassagem + ", descricao=" + descricao + ", situacao=" + situacao + ", dia=" + dia + ", mes=" + mes + ", ano=" + ano + '}';
-    }
-    
-    
-    
     
 }

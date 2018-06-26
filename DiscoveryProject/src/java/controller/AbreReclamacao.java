@@ -6,19 +6,18 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import javax.servlet.RequestDispatcher;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import negocio.Passagem;
+import negocio.Reclamacao;
 
 /**
  *
  * @author mateus
  */
-public class ProcessaViagem extends HttpServlet {
+public class AbreReclamacao extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,54 +30,15 @@ public class ProcessaViagem extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
-        String btn = request.getParameter("btn");
+        Reclamacao r = new Reclamacao(
+            Integer.parseInt( request.getParameter("codpassagem") ),
+            request.getParameter("descricao")
+        );
         
-        if ( btn.equals("1") )              // Botão "Realizar Checkin"
-        {
-            Object[] row = Passagem.consultar( Integer.parseInt(request.getParameter("item")) );
-            
-            if ( row != null )
-            {
-                Passagem p = new Passagem(
-                    Integer.parseInt( row[1].toString() ),      // Programação
-                    Integer.parseInt( row[0].toString() )       // Cabine
-                );
-                
-                ArrayList<Object[]> lst = p.getProgramacao().assentosDisponiveis( p.getCabine() );
-                request.setAttribute("assentos", lst);
-                request.setAttribute("passagem", row);
-                request.setAttribute("codPassagem", request.getParameter("item") );
-                
-                RequestDispatcher dispatcher = request.getRequestDispatcher("checkin.jsp");
-                dispatcher.forward(request, response);
-            }
-            else 
-                response.sendRedirect("minhasviagens.jsp");
-        }
-        else if ( btn.equals("2") )         // Botão "Cancelar"
-        {
-            Passagem p = new Passagem(
-                Integer.parseInt( request.getParameter("item") )
-            );
-            
-            p.cancelarPassagem();
-            response.sendRedirect("minhasviagens.jsp");
-        }
-        else                                // Botão "Abrir Reclamação"
-        {
-            Object[] row = Passagem.consultar( Integer.parseInt(request.getParameter("item")) );
-            
-            if ( row != null )
-            {
-                request.setAttribute("passagem", row);
-                request.setAttribute("codPassagem", request.getParameter("item") );
-                
-                RequestDispatcher dispatcher = request.getRequestDispatcher("novareclamacao.jsp");
-                dispatcher.forward(request, response);
-            }
-            else 
-                response.sendRedirect("minhasviagens.jsp");
-        }
+        if ( r.abreReclamacao() )
+            response.sendRedirect("minhasreclamacoes.jsp");
+        else
+            response.sendRedirect("meuperfil.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
