@@ -136,7 +136,7 @@ public class ClienteDAO
             stmt.setString(3, this.cliente.getEmail());
             stmt.setString(4, this.cliente.getTelefone());
             stmt.setString(5, this.cliente.getSenha());
-            stmt.setString(6, this.cliente.getData());
+            stmt.setString(6, MyDataHora.toUTC( this.cliente.getData() ));
 
             result = (stmt.executeUpdate() > 0);
         } 

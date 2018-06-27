@@ -34,6 +34,7 @@ public class ExcluirCliente extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
         Cliente c = (Cliente)request.getSession().getAttribute("cliente");
+        RequestDispatcher dispatcher;
         
         if ( c.excluirCliente() )
         {
@@ -41,13 +42,16 @@ public class ExcluirCliente extends HttpServlet {
             request.getSession().invalidate();
             
             // Configurar despachante.
-            RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
-            dispatcher.forward(request, response);
+            dispatcher = request.getRequestDispatcher("index.jsp");
         }
         else
         {
-            response.sendRedirect("meuperfil.jsp");
+            request.setAttribute("erro", 1);
+            dispatcher = request.getRequestDispatcher("meuperfil.jsp");
         }
+        
+        
+        dispatcher.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

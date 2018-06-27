@@ -13,7 +13,12 @@
         <script type="text/javascript">
             function excluirConta()
             {
-                return( confirm("ATENÇÃO!\n\nAo excluir sua conta, todos os seus dados serão descartados do sistema. Você perderá o acesso a todas as compras realizadas.\n\nSe deseja continuar, clique em \"OK\".\nCaso contrario, clique em \"Cancelar\".") );
+                return( confirm("ATENÇÃO!\n\nVocê deseja realmente excluir o seu perfil?\n\nSe deseja continuar, clique em \"OK\".\nCaso contrario, clique em \"Cancelar\".") );
+            }
+            
+            function erroExcluir()
+            {
+                alert("Não foi possivel excluir o cliente.");
             }
         </script>
         
@@ -151,6 +156,9 @@
         <%@include file="include/footer.jsp" %>
     </div>
 
+        <% if (request.getAttribute("erro") != null) { %>
+        <script>erroExcluir();</script> 
+        <% } %>
     <%@include file="include/footscripts.jsp" %>
     </body>
 </html>
